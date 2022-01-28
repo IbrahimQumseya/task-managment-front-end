@@ -1,14 +1,14 @@
-import React from "react";
-import useToken from "../components/useToken";
+import React, { useState } from "react";
 import SignIn from "./SignIn";
+import useToken, { getToken } from "../components/useToken";
 
 function Home() {
+  // const token = getToken();
   const { token, setToken } = useToken();
-  const handleToken = (e) => {
-    setToken(e);
-  };
+  // const token = getToken();
   if (!token) {
-    return <SignIn handleToken={handleToken} />;
+    return <SignIn setToken={setToken} />;
+    // return <SignIn />;
   }
   return <div>HOOOOOOOOOOOME</div>;
 }

@@ -1,4 +1,3 @@
-
 import {
   Avatar,
   Box,
@@ -13,13 +12,38 @@ import {
   Typography,
 } from "@mui/material";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const axios = require("axios");
 
 function SignUp() {
-  const history = useHistory();
+
+  const history = useNavigate();
+  const fetchAllData = (allData) => {
+    axios
+      .post("http://localhost:3000/auth/signup", {
+        firstName: allData.firstName,
+        lastName: allData.lastName,
+        email: allData.email,
+        password: allData.password,
+        username: allData.username,
+      })
+      .then(function (response) {
+        if (response.data === "USER_CREATED" && response.status === 201) {
+          // alert("the user have been created!");
+          console.log(history);
+          history("/login");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        // if (error.request.status === 409) {
+        //   alert("the username already exists!"); // Alert mui
+        // }
+        // console.log(error.request.status);
+      });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -42,26 +66,7 @@ function SignUp() {
     ) {
       if (allData.password === allData.passwordConform) {
         // here we work to fetch data POST
-        axios
-          .post("http://localhost:3000/auth/signup", {
-            firstName: allData.firstName,
-            lastName: allData.lastName,
-            email: allData.email,
-            password: allData.password,
-            username: allData.username,
-          })
-          .then(function (response) {
-            if (response.data === "USER_CREATED" && response.status === 201) {
-              // alert("the user have been created!");
-              history.push("/signin");
-            }
-          })
-          .catch(function (error) {
-            if (error.request.status === 409) {
-              alert("the username already exists!"); // Alert mui
-            }
-            // console.log(error.request.status);
-          });
+        fetchAllData(allData);
       } else {
         alert("password and conform password doesnt match");
       }
@@ -85,7 +90,7 @@ function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sigh Out
+          Sigh Up
         </Typography>
         <Box sx={{ m1: 3 }} component="form" noValidate onSubmit={handleSubmit}>
           <TextField
@@ -155,7 +160,7 @@ function SignUp() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="/signin" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

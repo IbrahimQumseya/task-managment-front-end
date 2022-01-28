@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@emotion/react";
 import {
   Avatar,
   Box,
@@ -12,12 +11,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
+
 import React, { useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 // import axios from "axios";
-
 
 async function loginUser(credentials) {
   return fetch("http://localhost:3000/auth/signin", {
@@ -29,11 +28,11 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
-export default function SignIn({ handleToken }) {
+export default function SignIn({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
+  const navigate = useNavigate();
 
-  console.log(handleToken);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,8 +49,13 @@ export default function SignIn({ handleToken }) {
         username,
         password,
       });
-      console.log("---------", token.accessToken);
-      handleToken(token.accessToken);
+      if (token) {
+        setToken(token.accessToken);
+
+        navigate("/home");
+      }
+
+      // console.log("handletoken", handleToken);
       // axios
       //   .post("http://localhost:3000/auth/signin", {
       //     username,
@@ -123,7 +127,7 @@ export default function SignIn({ handleToken }) {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/signup" variant="body2">
+              <Link href="/register" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
