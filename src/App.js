@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import SignIn from "./screens/SignIn";
+import ColorTabs from "./components/ColorTabs";
+
+import Home from "./screens/Home";
+
+import SignUp from "./screens/SignUp";
 
 function App() {
+  // const token = getToken();
+  // const [token, setToken] = useState();
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <ColorTabs />
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
+    </BrowserRouter>
+    // <div className="wrapper">
+    //   <h1>Application</h1>
+    //   <BrowserRouter>
+    //     <Routes>
+    //       <Route path="/home">
+    //         <Home />
+    //       </Route>
+    //     </Routes>
+    //   </BrowserRouter>
+    // </div>
   );
 }
 
