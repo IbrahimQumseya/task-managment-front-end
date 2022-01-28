@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@emotion/react";
+
 import {
   Avatar,
   Box,
@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
+
 import React from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useHistory } from "react-router-dom";
@@ -58,7 +58,7 @@ function SignUp() {
           })
           .catch(function (error) {
             if (error.request.status === 409) {
-              alert("the username already exists!");
+              alert("the username already exists!"); // Alert mui
             }
             // console.log(error.request.status);
           });
