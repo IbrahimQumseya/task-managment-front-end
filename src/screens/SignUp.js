@@ -165,13 +165,6 @@ function SignUp() {
               </Link>
             </Grid>
           </Grid>
-          {/* <Grid Container>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have account? Sign in
-                </Link>
-              </Grid>
-            </Grid> */}
         </Box>
       </Box>
     </Container>

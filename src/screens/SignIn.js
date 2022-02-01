@@ -33,6 +33,7 @@ export default function SignIn({ setToken }) {
   const [password, setPassword] = useState();
   const navigate = useNavigate();
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -53,6 +54,8 @@ export default function SignIn({ setToken }) {
         setToken(token.accessToken);
 
         navigate("/home");
+      }else {
+        navigate("/login")
       }
 
       // console.log("handletoken", handleToken);

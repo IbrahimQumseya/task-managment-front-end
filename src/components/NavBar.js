@@ -22,15 +22,24 @@ function NavBar() {
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
+    console.log(e);
   };
   const handleOpenUserMenu = (e) => {
     setAnchorElUser(e.currentTarget);
+    console.log(e.currentTarget);
   };
 
-  const handleCloseNavMenu = (page) => {
+  const handleCloseNavMenu = (page, e) => {
     console.log(page.path);
-    // Navigate(`/`)
-    navigate(page.path);
+    if (
+      page.path === "/login" ||
+      page.path === "/register" ||
+      page.path === "/home" ||
+      page.path === "/"
+    ) {
+      navigate(page.path);
+      setAnchorElNav(null);
+    }
     setAnchorElNav(null);
   };
   const handleCloseUserMenu = (name) => {
@@ -57,6 +66,7 @@ function NavBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
+              id="buttonMenu"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -83,15 +93,28 @@ function NavBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {token &&
-                pages.map((page) => (
-                  <MenuItem
-                    key={page.id}
-                    onClick={() => handleCloseNavMenu(page.path)}
-                  >
-                    <Typography textAlign="center">{page.name}</Typography>
-                  </MenuItem>
-                ))}
+              {pages.map((page) => {
+                if (page.id > 2 && token) {
+                  return (
+                    <MenuItem
+                      key={page.id}
+                      onClick={() => handleCloseNavMenu(page)}
+                    >
+                      <Typography textAlign="center">{page.name}</Typography>
+                    </MenuItem>
+                  );
+                }
+                if (!token && page.id < 3) {
+                  return (
+                    <MenuItem
+                      key={page.id}
+                      onClick={() => handleCloseNavMenu(page)}
+                    >
+                      <Typography textAlign="center">{page.name}</Typography>
+                    </MenuItem>
+                  );
+                }
+              })}
             </Menu>
           </Box>
           <Typography
