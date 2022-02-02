@@ -14,24 +14,49 @@ function App() {
   // const [token, setToken] = useState();
   // const navigate = useNavigate();
   const { token, setToken } = useToken();
-  const [isAuthentificated,setIsAuthentificated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   //useEffite and use state
 
   return (
     <BrowserRouter>
-      <NavBar />
+      <NavBar
+        isAuthenticated={isAuthenticated}
+        setIsAuthenticated={setIsAuthenticated}
+      />
       <Routes>
         <Route
           exact
           path="/"
-          element={<Home token={token} setToken={setToken} />}
+          element={
+            <Home
+              token={token}
+              setToken={setToken}
+              setIsAuthenticated={setIsAuthenticated}
+              isAuthenticated={isAuthenticated}
+            />
+          }
         />
         <Route
           path="/home"
-          element={<Home token={token} setToken={setToken} />}
+          element={
+            <Home
+              token={token}
+              setToken={setToken}
+              setIsAuthenticated={setIsAuthenticated}
+              isAuthenticated={isAuthenticated}
+            />
+          }
         />
-        <Route path="/login" element={<SignIn setToken={setToken} />} />
+        <Route
+          path="/login"
+          element={
+            <SignIn
+              setToken={setToken}
+              setIsAuthenticated={setIsAuthenticated}
+            />
+          }
+        />
         <Route path="/register" element={<SignUp />} />
       </Routes>
     </BrowserRouter>

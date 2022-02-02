@@ -28,11 +28,10 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
-export default function SignIn({ setToken }) {
+export default function SignIn({ setToken, setIsAuthenticated }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,12 +49,15 @@ export default function SignIn({ setToken }) {
         username,
         password,
       });
+      console.log(token);
       if (token) {
+        setIsAuthenticated(true);
         setToken(token.accessToken);
 
         navigate("/home");
-      }else {
-        navigate("/login")
+      } else {
+        setIsAuthenticated(false);
+        navigate("/login");
       }
 
       // console.log("handletoken", handleToken);

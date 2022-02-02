@@ -14,11 +14,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { pages, settings } from "../asserts/data";
 import useToken from "./useToken";
-function NavBar() {
+function NavBar({ isAuthenticated, setIsAuthenticated }) {
   let navigate = useNavigate();
   const { token, setToken } = useToken();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  console.log(isAuthenticated);
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
@@ -45,6 +46,7 @@ function NavBar() {
   const handleCloseUserMenu = (name) => {
     if (name === "Logout" && token) {
       setToken("");
+      setIsAuthenticated(false);
       sessionStorage.clear();
       navigate("/login");
     }
@@ -94,7 +96,7 @@ function NavBar() {
               }}
             >
               {pages.map((page) => {
-                if (page.id > 2 && token) {
+                if (page.id > 2 && isAuthenticated) {
                   return (
                     <MenuItem
                       key={page.id}
@@ -104,7 +106,7 @@ function NavBar() {
                     </MenuItem>
                   );
                 }
-                if (!token && page.id < 3) {
+                if (!isAuthenticated && page.id < 3) {
                   return (
                     <MenuItem
                       key={page.id}
@@ -129,7 +131,7 @@ function NavBar() {
             {
               // error here!
               pages.map((page) => {
-                if (token && page.id > 2) {
+                if (isAuthenticated && page.id > 2) {
                   console.log(page.id);
                   return (
                     <Button
@@ -141,7 +143,7 @@ function NavBar() {
                     </Button>
                   );
                 }
-                if (!token && page.id < 3) {
+                if (!isAuthenticated && page.id < 3) {
                   return (
                     <Button
                       key={page.id}
@@ -191,14 +193,15 @@ function NavBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem
-                    key={setting.id}
-                    onClick={() => handleCloseUserMenu(setting.name)}
-                  >
-                    <Typography textAlign="center">{setting.name}</Typography>
-                  </MenuItem>
-                ))}
+                {isAuthenticated &&
+                  settings.map((setting) => (
+                    <MenuItem
+                      key={setting.id}
+                      onClick={() => handleCloseUserMenu(setting.name)}
+                    >
+                      <Typography textAlign="center">{setting.name}</Typography>
+                    </MenuItem>
+                  ))}
               </Menu>
             </Box>
           )}
