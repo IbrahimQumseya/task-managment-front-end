@@ -56,7 +56,7 @@ export default function SignIn({ setToken, setIsAuthenticated }) {
 
         navigate("/home");
       } else {
-        setIsAuthenticated(false);
+        // setIsAuthenticated(false);
         navigate("/login");
       }
 

@@ -17,15 +17,14 @@ function Home({ token, setToken, setIsAuthenticated, isAuthenticated }) {
   // const { token, setToken } = useToken();
   // const token = getToken();
   if (!isAuthenticated) {
-    setIsAuthenticated(false);
-
     return (
       <SignIn setToken={setToken} setIsAuthenticated={setIsAuthenticated} />
     );
     // return <SignIn />;
-  } else {
-    setIsAuthenticated(true);
   }
+  // else {
+  //   setIsAuthenticated(true);
+  // }
   return <CollapsibleTable />;
 }
 

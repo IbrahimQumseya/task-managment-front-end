@@ -7,16 +7,23 @@ import Home from "./screens/Home";
 import SignUp from "./screens/SignUp";
 import NavBar from "./components/NavBar";
 import useToken from "./components/useToken";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   // const token = getToken();
   // const [token, setToken] = useState();
   // const navigate = useNavigate();
   const { token, setToken } = useToken();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState();
 
-  //useEffite and use state
+  //useEffite and use state check local storage and set auth
+  useEffect(() => {
+    if (token) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [token]);
 
   return (
     <BrowserRouter>

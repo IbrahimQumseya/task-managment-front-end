@@ -169,7 +169,7 @@ function NavBar({ isAuthenticated, setIsAuthenticated }) {
             }
           </Box>
 
-          {token && (
+          {isAuthenticated && (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -193,7 +193,7 @@ function NavBar({ isAuthenticated, setIsAuthenticated }) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {isAuthenticated &&
+                {
                   settings.map((setting) => (
                     <MenuItem
                       key={setting.id}
