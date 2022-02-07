@@ -16,6 +16,8 @@ import React, { useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../features/user/userSlice";
 // import axios from "axios";
 
 async function loginUser(credentials) {
@@ -28,10 +30,13 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
-export default function SignIn({ setToken, setIsAuthenticated }) {
+export default function SignIn({ setToken }) {
+  //setIsAuthenticated
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,9 +54,8 @@ export default function SignIn({ setToken, setIsAuthenticated }) {
         username,
         password,
       });
-      console.log(token);
       if (token) {
-        setIsAuthenticated(true);
+        dispatch(login());
         setToken(token.accessToken);
 
         navigate("/home");

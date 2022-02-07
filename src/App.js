@@ -1,35 +1,43 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import SignIn from "./screens/SignIn";
+// import SignIn from "./screens/SignIn";
 
-import Home from "./screens/Home";
+// import Home from "./screens/Home";
 
-import SignUp from "./screens/SignUp";
+// import SignUp from "./screens/SignUp";
 import NavBar from "./components/NavBar";
 import useToken from "./components/useToken";
 import { useEffect, useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import Home from "./screens/Home";
+import SignIn from "./screens/SignIn";
+import SignUp from "./screens/SignUp";
+import { login, logout } from "./features/user/userSlice";
 function App() {
   // const token = getToken();
   // const [token, setToken] = useState();
   // const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { token, setToken } = useToken();
-  const [isAuthenticated, setIsAuthenticated] = useState();
+  const user = useSelector((state) => state.user);
+  // const [isAuthenticated, setIsAuthenticated] = useState();
 
-  //useEffite and use state check local storage and set auth
+  //useEffect and use state check local storage and set auth
   useEffect(() => {
     if (token) {
-      setIsAuthenticated(true);
+      dispatch(login());
+      // setIsAuthenticated(true);
     } else {
-      setIsAuthenticated(false);
+      // dispatch(logout(auth));
+      dispatch(logout());
     }
-  }, [token]);
+  }, [user]);
 
   return (
     <BrowserRouter>
       <NavBar
-        isAuthenticated={isAuthenticated}
-        setIsAuthenticated={setIsAuthenticated}
+        // isAuthenticated={isAuthenticated}
+        // setIsAuthenticated={setIsAuthenticated}
       />
       <Routes>
         <Route
@@ -39,8 +47,8 @@ function App() {
             <Home
               token={token}
               setToken={setToken}
-              setIsAuthenticated={setIsAuthenticated}
-              isAuthenticated={isAuthenticated}
+              // setIsAuthenticated={setIsAuthenticated}
+              // isAuthenticated={isAuthenticated}
             />
           }
         />
@@ -50,8 +58,8 @@ function App() {
             <Home
               token={token}
               setToken={setToken}
-              setIsAuthenticated={setIsAuthenticated}
-              isAuthenticated={isAuthenticated}
+              // setIsAuthenticated={setIsAuthenticated}
+              // isAuthenticated={isAuthenticated}
             />
           }
         />
@@ -60,23 +68,13 @@ function App() {
           element={
             <SignIn
               setToken={setToken}
-              setIsAuthenticated={setIsAuthenticated}
+              // setIsAuthenticated={setIsAuthenticated}
             />
           }
         />
         <Route path="/register" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
-    // <div className="wrapper">
-    //   <h1>Application</h1>
-    //   <BrowserRouter>
-    //     <Routes>
-    //       <Route path="/home">
-    //         <Home />
-    //       </Route>
-    //     </Routes>
-    //   </BrowserRouter>
-    // </div>
   );
 }
 

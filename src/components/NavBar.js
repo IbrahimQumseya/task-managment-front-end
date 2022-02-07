@@ -14,24 +14,25 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { pages, settings } from "../asserts/data";
 import useToken from "./useToken";
-function NavBar({ isAuthenticated, setIsAuthenticated }) {
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/user/userSlice";
+function NavBar() {
+  //setIsAuthenticated and isAuthenticated
   let navigate = useNavigate();
   const { token, setToken } = useToken();
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  console.log(isAuthenticated);
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
-    console.log(e);
   };
   const handleOpenUserMenu = (e) => {
     setAnchorElUser(e.currentTarget);
-    console.log(e.currentTarget);
   };
 
   const handleCloseNavMenu = (page, e) => {
-    console.log(page.path);
     if (
       page.path === "/login" ||
       page.path === "/register" ||
@@ -46,7 +47,7 @@ function NavBar({ isAuthenticated, setIsAuthenticated }) {
   const handleCloseUserMenu = (name) => {
     if (name === "Logout" && token) {
       setToken("");
-      setIsAuthenticated(false);
+      dispatch(logout());
       sessionStorage.clear();
       navigate("/login");
     }
@@ -132,7 +133,6 @@ function NavBar({ isAuthenticated, setIsAuthenticated }) {
               // error here!
               pages.map((page) => {
                 if (isAuthenticated && page.id > 2) {
-                  console.log(page.id);
                   return (
                     <Button
                       key={page.id}
@@ -193,15 +193,14 @@ function NavBar({ isAuthenticated, setIsAuthenticated }) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {
-                  settings.map((setting) => (
-                    <MenuItem
-                      key={setting.id}
-                      onClick={() => handleCloseUserMenu(setting.name)}
-                    >
-                      <Typography textAlign="center">{setting.name}</Typography>
-                    </MenuItem>
-                  ))}
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting.id}
+                    onClick={() => handleCloseUserMenu(setting.name)}
+                  >
+                    <Typography textAlign="center">{setting.name}</Typography>
+                  </MenuItem>
+                ))}
               </Menu>
             </Box>
           )}

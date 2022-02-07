@@ -14,6 +14,9 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import useToken from "./useToken";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGetAllTasks } from "../api/taskAPI";
+import { selectTasks } from "../features/tasks/tasksSlice";
 const axios = require("axios");
 
 async function getTasks(token, setData) {
@@ -45,7 +48,6 @@ function createData(title, description, status, { details, isDeactivated }) {
 }
 function RowComponent(props) {
   const { row } = props;
-  console.log(row);
   const [open, setOpen] = useState(false);
   return (
     <React.Fragment>
@@ -124,10 +126,18 @@ function RowComponent(props) {
 // ];
 function CollapsibleTable() {
   const { token } = useToken();
-  const [data, setData] = useState([]);
+  const holeTasks = useSelector(selectTasks);
+  const tasks = holeTasks.tasks;
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   getTasks(token, setData);
+  // }, [token]);
   useEffect(() => {
-    getTasks(token, setData);
-  }, [token]);
+    dispatch(fetchGetAllTasks(token));
+    // getTasks(token, setData);
+  }, [dispatch, token]);
+  // console.log(tasks);
+  // console.log(tasks);
   //   data.map((value) => {
   //   console.log(data.map);
   //   });
@@ -149,7 +159,7 @@ function CollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((value, index) => {
+          {tasks.map((value, index) => {
             createData(value.title, value.description, value.status, {
               isDeactivated: value.taskMetadata.isDeactivated,
               details: value.taskMetadata.details,
