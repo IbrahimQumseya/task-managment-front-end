@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  users: [],
   username: "",
   email: "",
   isFetching: false,
@@ -11,18 +12,18 @@ const initialState = {
 };
 
 export const userSlice = createSlice({
-  name: "user",
+  name: "user", 
   initialState,
   reducers: {
-    login: (state) => {
+    login: (state, action) => {
       //   state.username = action.payload;
       state.isAuthenticated = true;
-      //   localStorage.setItem("user", JSON.stringify(action.payload));
+      sessionStorage.setItem("user", action.payload);
     },
     logout: (state, action) => {
       //   state.username = action.payload;
       state.isAuthenticated = false;
-      //   localStorage.removeItem("user");
+      localStorage.removeItem("user");
     },
   },
   extraReducers: {},

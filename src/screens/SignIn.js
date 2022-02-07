@@ -14,10 +14,9 @@ import {
 
 import React, { useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/user/userSlice";
+import { login, logout } from "../features/user/userSlice";
 // import axios from "axios";
 
 async function loginUser(credentials) {
@@ -30,13 +29,12 @@ async function loginUser(credentials) {
   }).then((data) => data.json());
 }
 
-export default function SignIn({ setToken }) {
+export default function SignIn() {
   //setIsAuthenticated
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,12 +53,12 @@ export default function SignIn({ setToken }) {
         password,
       });
       if (token) {
-        dispatch(login());
-        setToken(token.accessToken);
+        console.log(token.accessToken);
+        dispatch(login(token.accessToken));
+        // setToken(token.accessToken);
 
         navigate("/home");
       } else {
-        // setIsAuthenticated(false);
         navigate("/login");
       }
 
@@ -147,6 +145,6 @@ export default function SignIn({ setToken }) {
   );
 }
 
-SignIn.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};
+// SignIn.propTypes = {
+//   setToken: PropTypes.func.isRequired,
+// };

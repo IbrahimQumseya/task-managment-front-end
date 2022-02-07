@@ -18,26 +18,27 @@ function App() {
   // const [token, setToken] = useState();
   // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { token, setToken } = useToken();
   const user = useSelector((state) => state.user);
+  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   // const [isAuthenticated, setIsAuthenticated] = useState();
 
   //useEffect and use state check local storage and set auth
+  const token = sessionStorage.getItem("user");
   useEffect(() => {
     if (token) {
-      dispatch(login());
+      dispatch(login(token));
       // setIsAuthenticated(true);
     } else {
       // dispatch(logout(auth));
       dispatch(logout());
     }
-  }, [user]);
+  }, [token, dispatch]);
 
   return (
     <BrowserRouter>
       <NavBar
-        // isAuthenticated={isAuthenticated}
-        // setIsAuthenticated={setIsAuthenticated}
+      // isAuthenticated={isAuthenticated}
+      // setIsAuthenticated={setIsAuthenticated}
       />
       <Routes>
         <Route
@@ -45,10 +46,8 @@ function App() {
           path="/"
           element={
             <Home
-              token={token}
-              setToken={setToken}
-              // setIsAuthenticated={setIsAuthenticated}
-              // isAuthenticated={isAuthenticated}
+            // setIsAuthenticated={setIsAuthenticated}
+            // isAuthenticated={isAuthenticated}
             />
           }
         />
@@ -56,10 +55,8 @@ function App() {
           path="/home"
           element={
             <Home
-              token={token}
-              setToken={setToken}
-              // setIsAuthenticated={setIsAuthenticated}
-              // isAuthenticated={isAuthenticated}
+            // setIsAuthenticated={setIsAuthenticated}
+            // isAuthenticated={isAuthenticated}
             />
           }
         />
@@ -67,8 +64,7 @@ function App() {
           path="/login"
           element={
             <SignIn
-              setToken={setToken}
-              // setIsAuthenticated={setIsAuthenticated}
+            // setIsAuthenticated={setIsAuthenticated}
             />
           }
         />

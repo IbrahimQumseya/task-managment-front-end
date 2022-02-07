@@ -19,11 +19,11 @@ import { logout } from "../features/user/userSlice";
 function NavBar() {
   //setIsAuthenticated and isAuthenticated
   let navigate = useNavigate();
-  const { token, setToken } = useToken();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const dispatch = useDispatch();
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const token = sessionStorage.getItem("user");
 
   const handleOpenNavMenu = (e) => {
     setAnchorElNav(e.currentTarget);
@@ -46,7 +46,6 @@ function NavBar() {
   };
   const handleCloseUserMenu = (name) => {
     if (name === "Logout" && token) {
-      setToken("");
       dispatch(logout());
       sessionStorage.clear();
       navigate("/login");

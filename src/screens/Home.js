@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import SignIn from "./SignIn";
-import useToken from "../components/useToken";
 import CollapsibleTable from "../components/CollapsiableTable";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Container } from "@mui/material";
+import AddATask from "../features/tasks/AddATask";
 
-function Home({ setToken }) {
+function Home() {
   //token, , setIsAuthenticated, isAuthenticated
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -19,14 +20,20 @@ function Home({ setToken }) {
   // const token = getToken();
   // const { token, setToken } = useToken();
   // const token = getToken();
+  console.log("alskd;asl", isAuthenticated);
   if (!isAuthenticated) {
-    return <SignIn setToken={setToken} />;
+    return <SignIn />;
     // return <SignIn />;
   }
   // else {
   //   setIsAuthenticated(true);
   // }
-  return <CollapsibleTable />;
+  return (
+    <Container maxWidth="lg">
+      <AddATask />
+      <CollapsibleTable />
+    </Container>
+  );
 }
 
 export default Home;

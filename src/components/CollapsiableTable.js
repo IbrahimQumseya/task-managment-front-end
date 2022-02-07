@@ -13,28 +13,11 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import useToken from "./useToken";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchGetAllTasks } from "../api/taskAPI";
 import { selectTasks } from "../features/tasks/tasksSlice";
-const axios = require("axios");
+import { useNavigate } from "react-router-dom";
 
-async function getTasks(token, setData) {
-  try {
-    const instance = axios.create({
-      baseURL: "https://some-domain.com/api/",
-      timeout: 1000,
-      headers: { Authorization: "Bearer " + token },
-    });
-    const response = await instance.get("http://localhost:3000/tasks");
-    setData(response.data);
-    // response.data.map((value) => {
-    //   return setData([value]);
-    // });
-  } catch (error) {
-    console.error(error);
-  }
-}
 function createData(title, description, status, { details, isDeactivated }) {
   return {
     title,
@@ -67,85 +50,58 @@ function RowComponent(props) {
         <TableCell align="center">{row.description}</TableCell>
         <TableCell align="center">{row.status}</TableCell>
       </TableRow>
-      <TableRow style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-        <Collapse in={open} timeout="auto" unmountOnExit>
-          <Box sx={{ margin: 1 }}>
-            <Typography variant="h6" gutterBottom component="div">
-              History
-            </Typography>
-            <Table size="medium" arial-label="purchases">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Details</TableCell>
-                  <TableCell>Task Activated</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell component="th" scope="row">
-                    {row.taskMetadata.details}
-                  </TableCell>
-                  <TableCell>
-                    {row.taskMetadata.isDeactivated.toString()}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </Box>
-        </Collapse>
-      </TableRow>
+      {row.taskMetadata && (
+        <TableRow style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <Typography variant="h6" gutterBottom component="div">
+                History
+              </Typography>
+              <Table size="medium" arial-label="purchases">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Details</TableCell>
+                    <TableCell>Task Activated</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">
+                      {row.taskMetadata.details
+                        ? row.taskMetadata.details
+                        : null}
+                    </TableCell>
+                    <TableCell>
+                      {row.taskMetadata.isDeactivated.toString()
+                        ? row.taskMetadata.isDeactivated.toString()
+                        : null}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableRow>
+      )}
     </React.Fragment>
   );
 }
 
-// const rows = [
-//   //   createData(data[0].title, "Description", "true", {
-//   //     isDeactivated: "true",
-//   //     details: "helllo",
-//   //   }),
-//   createData("title", "Description", "true", {
-//     isDeactivated: "true",
-//     details: "helllo",
-//   }),
-//   createData("Ice cream sandwich", "Description1", "true", {
-//     isDeactivated: "true",
-//     details: "helllo",
-//   }),
-//   createData("Eclair", "Description2", "true", {
-//     isDeactivated: "true",
-//     details: "helllo",
-//   }),
-//   createData("Cupcake", "Description3", "true", {
-//     isDeactivated: "true",
-//     details: "helllo",
-//   }),
-//   createData("Gingerbread", "Description4", "true", {
-//     isDeactivated: "true",
-//     details: "helllo",
-//   }),
-// ];
 function CollapsibleTable() {
-  const { token } = useToken();
-  const holeTasks = useSelector(selectTasks);
-  const tasks = holeTasks.tasks;
+  const navigate = useNavigate();
+  const userIsAuthenticated = useSelector(
+    (state) => state.user.isAuthenticated
+  );
   const dispatch = useDispatch();
-  // useEffect(() => {
-  //   getTasks(token, setData);
-  // }, [token]);
+  const tasks = useSelector(selectTasks);
+  const token = sessionStorage.getItem("user");
+
   useEffect(() => {
-    dispatch(fetchGetAllTasks(token));
+    if (userIsAuthenticated && token) {
+      dispatch(fetchGetAllTasks(token));
+    }
     // getTasks(token, setData);
-  }, [dispatch, token]);
-  // console.log(tasks);
-  // console.log(tasks);
-  //   data.map((value) => {
-  //   console.log(data.map);
-  //   });
-  //   const { id, title, description } = data;
-  //   console.log(title);
-  //   data.map((value, index) => {
-  //     console.log(value);
-  //   });
+  }, []);
 
   return (
     <TableContainer component={Paper}>
@@ -159,16 +115,13 @@ function CollapsibleTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tasks.map((value, index) => {
+          {tasks.tasks.map((value, index) => {
             createData(value.title, value.description, value.status, {
-              isDeactivated: value.taskMetadata.isDeactivated,
-              details: value.taskMetadata.details,
+              isDeactivated: value.taskMetadata?.isDeactivated,
+              details: value.taskMetadata?.details,
             });
             return <RowComponent key={index} row={value} />;
           })}
-          {/* {rows.map((row, index) => (
-            <Row key={index} row={row} />
-          ))} */}
         </TableBody>
       </Table>
     </TableContainer>
@@ -176,18 +129,5 @@ function CollapsibleTable() {
 }
 
 // RowComponent.propTypes = {
-//   row: PropTypes.shape({
-//     title: PropTypes.string.isRequired,
-//     description: PropTypes.string.isRequired,
-//     status: PropTypes.string.isRequired,
-//     taskMetadata: PropTypes.objectOf(
-//       PropTypes.shape({
-//         id: PropTypes.isRequired,
-//         details: PropTypes.string.isRequired,
-//         isDeactivated: PropTypes.bool.isRequired,
-//       })
-//     ).isRequired,
-//   }).isRequired,
-// };
 
 export default CollapsibleTable;
