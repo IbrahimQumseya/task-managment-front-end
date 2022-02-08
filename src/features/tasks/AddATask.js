@@ -16,7 +16,7 @@ function AddATask() {
 
   const tasks = useSelector(selectTasks);
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const data = new FormData(e.currentTarget);
     const allData = {
       title: data.get("title"),

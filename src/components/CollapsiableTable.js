@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGetAllTasks } from "../api/taskAPI";
 import { selectTasks } from "../features/tasks/tasksSlice";
 import { useNavigate } from "react-router-dom";
+import { Stack } from "@mui/material";
+import DeleteTask from "../features/tasks/DeleteTask";
 
 function createData(title, description, status, { details, isDeactivated }) {
   return {
@@ -35,6 +37,7 @@ function RowComponent(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+        
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -49,6 +52,7 @@ function RowComponent(props) {
         </TableCell>
         <TableCell align="center">{row.description}</TableCell>
         <TableCell align="center">{row.status}</TableCell>
+          <DeleteTask id={row.id} />
       </TableRow>
       {row.taskMetadata && (
         <TableRow style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -101,7 +105,7 @@ function CollapsibleTable() {
       dispatch(fetchGetAllTasks(token));
     }
     // getTasks(token, setData);
-  }, [dispatch, userIsAuthenticated,token]);
+  }, [dispatch, userIsAuthenticated, token]);
 
   return (
     <TableContainer component={Paper}>
