@@ -101,7 +101,7 @@ function CollapsibleTable() {
       dispatch(fetchGetAllTasks(token));
     }
     // getTasks(token, setData);
-  }, []);
+  }, [dispatch, userIsAuthenticated,token]);
 
   return (
     <TableContainer component={Paper}>

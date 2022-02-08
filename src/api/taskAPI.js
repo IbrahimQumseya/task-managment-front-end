@@ -1,13 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from './newAPI';
+;
+
 
 export const fetchGetAllTasks = createAsyncThunk(
   "tasks/getTasks",
-  async (token, thunkAPI) => {
+  async ( thunkAPI) => {
     try {
-      const response = await axios.get(`http://localhost:3000/tasks`, {
-        headers: { Authorization: "Bearer " + token },
-      });
+      // const response = await axios.get(`${REACT_APP_API_URL_TASK}/tasks`, {
+      //   headers: { Authorization: "Bearer " + token },
+      // });
+      const response = await axios.get(`/tasks`)
       return await response.data;
     } catch (error) {
       console.log(error);
@@ -18,10 +21,8 @@ export const fetchGetAllTasks = createAsyncThunk(
 export const fetchCreateTask = createAsyncThunk(
   "tasks/createTask",
   async (params) => {
-    const { title, description,status,token } = params;
-    const config = {
-      headers: { Authorization: `Bearer ${token}` },
-    };
+    const { title, description, status } = params;
+
     const bodyParameters = {
       title,
       description,
@@ -29,9 +30,8 @@ export const fetchCreateTask = createAsyncThunk(
     };
     try {
       const response = await axios.post(
-        `http://localhost:3000/tasks`,
+        `/tasks`,
         bodyParameters,
-        config
       );
       return await response.data;
     } catch (error) {
