@@ -1,16 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from './newAPI';
-;
-
+import axios from "./newAPI";
+export const fetchDeleteTask = createAsyncThunk(
+  "tasks/deleteTask",
+  async (id) => {
+    try {
+      console.log(id);
+      const result = await axios.delete(`/tasks/${id}`);
+      if (result.status === "404") {
+        console.log("eroor delete");
+      }
+    } catch (error) {}
+  }
+);
 
 export const fetchGetAllTasks = createAsyncThunk(
   "tasks/getTasks",
-  async ( thunkAPI) => {
+  async (thunkAPI) => {
     try {
-      // const response = await axios.get(`${REACT_APP_API_URL_TASK}/tasks`, {
-      //   headers: { Authorization: "Bearer " + token },
-      // });
-      const response = await axios.get(`/tasks`)
+      const response = await axios.get(`/tasks`);
       return await response.data;
     } catch (error) {
       console.log(error);
@@ -29,10 +36,7 @@ export const fetchCreateTask = createAsyncThunk(
       status,
     };
     try {
-      const response = await axios.post(
-        `/tasks`,
-        bodyParameters,
-      );
+      const response = await axios.post(`/tasks`, bodyParameters);
       return await response.data;
     } catch (error) {
       console.log(error);

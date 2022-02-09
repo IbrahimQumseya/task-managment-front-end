@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchCreateTask, fetchGetAllTasks } from "../../api/taskAPI";
+import {
+  fetchCreateTask,
+  fetchGetAllTasks,
+  fetchDeleteTask,
+} from "../../api/taskAPI";
 import { v4 as uuid } from "uuid";
 const initialState = {
   tasks: [],
@@ -13,18 +17,27 @@ const tasksSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
+    // deleteTask: (state, action) => {
+    //   state.tasks.filter((task) => task.id === action.payload);
+    //   console.log(state.tasks.find((task) => task.id === action.payload));
+    // },
     addTaskStatePost: (state, action) => {
       // console.log(action);
       // state.tasks.push(action.payload);
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchGetAllTasks.fulfilled, (state, action) => {
-      state.tasks = state.tasks.concat(action.payload);
-      state.isPushed = "true";
-    }).addCase(fetchCreateTask.fulfilled, (state,action) => {
-      state.tasks.push(action.payload);
-    })
+    builder
+      .addCase(fetchGetAllTasks.fulfilled, (state, action) => {
+        state.tasks = state.tasks.concat(action.payload);
+        state.isPushed = "true";
+      })
+      .addCase(fetchCreateTask.fulfilled, (state, action) => {
+        state.tasks.push(action.payload);
+      })
+      .addCase(fetchDeleteTask.fulfilled, (state, { meta }) => {
+        state.tasks = state.tasks.filter((task) => task.id !== meta.arg);
+      });
   },
 });
 

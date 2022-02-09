@@ -37,7 +37,6 @@ function RowComponent(props) {
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
-        
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -52,7 +51,11 @@ function RowComponent(props) {
         </TableCell>
         <TableCell align="center">{row.description}</TableCell>
         <TableCell align="center">{row.status}</TableCell>
-          <DeleteTask id={row.id} />
+        <DeleteTask
+          id={row.id}
+          title="Deleting Task"
+          description="Are you sure you want to delete this task?"
+        />
       </TableRow>
       {row.taskMetadata && (
         <TableRow style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

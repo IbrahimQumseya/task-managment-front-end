@@ -9,10 +9,11 @@ const initialState = {
   isError: false,
   errorMessage: "",
   isAuthenticated: false,
+  isExpiredToken: false,
 };
 
 export const userSlice = createSlice({
-  name: "user", 
+  name: "user",
   initialState,
   reducers: {
     login: (state, action) => {
