@@ -1,45 +1,34 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "./newAPI";
-export const fetchDeleteTask = createAsyncThunk(
-  "tasks/deleteTask",
-  async (id) => {
-    try {
-      console.log(id);
-      const result = await axios.delete(`/tasks/${id}`);
-      if (result.status === "404") {
-        console.log("eroor delete");
-      }
-    } catch (error) {}
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from './newAPI';
+export const fetchDeleteTask = createAsyncThunk('tasks/deleteTask', async (id) => {
+  try {
+    await axios.delete(`/tasks/${id}`);
+  } catch (error) {
+    throw Error(error);
   }
-);
+});
 
-export const fetchGetAllTasks = createAsyncThunk(
-  "tasks/getTasks",
-  async (thunkAPI) => {
-    try {
-      const response = await axios.get(`/tasks`);
-      return await response.data;
-    } catch (error) {
-      console.log(error);
-    }
+export const fetchGetAllTasks = createAsyncThunk('tasks/getTasks', async (_thunkAPI) => {
+  try {
+    const response = await axios.get(`/tasks`);
+    return response.data;
+  } catch (error) {
+    throw Error(error);
   }
-);
+});
 
-export const fetchCreateTask = createAsyncThunk(
-  "tasks/createTask",
-  async (params) => {
-    const { title, description, status } = params;
+export const fetchCreateTask = createAsyncThunk('tasks/createTask', async (params) => {
+  const { title, description, status } = params;
 
-    const bodyParameters = {
-      title,
-      description,
-      status,
-    };
-    try {
-      const response = await axios.post(`/tasks`, bodyParameters);
-      return await response.data;
-    } catch (error) {
-      console.log(error);
-    }
+  const bodyParameters = {
+    title,
+    description,
+    status,
+  };
+  try {
+    const response = await axios.post(`/tasks`, bodyParameters);
+    return response.data;
+  } catch (error) {
+    throw Error(error);
   }
-);
+});

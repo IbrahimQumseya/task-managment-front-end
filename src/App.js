@@ -1,74 +1,38 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
-// import SignIn from "./screens/SignIn";
-
-// import Home from "./screens/Home";
-
-// import SignUp from "./screens/SignUp";
-import NavBar from "./components/NavBar";
-import useToken from "./components/useToken";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Home from "./screens/Home";
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
-import { login, logout } from "./features/user/userSlice";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import Home from './screens/Home';
+import jwt_decode from 'jwt-decode';
+import SignIn from './screens/SignIn';
+import SignUp from './screens/SignUp';
+import { login, logout } from './features/user/userSlice';
 function App() {
-  // const token = getToken();
-  // const [token, setToken] = useState();
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  // const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-  // const [isAuthenticated, setIsAuthenticated] = useState();
-
-  //useEffect and use state check local storage and set auth
-  const token = sessionStorage.getItem("user");
+  const token = sessionStorage.getItem('user');
+  console.log(token);
   useEffect(() => {
     if (token) {
+      const decodedTokenJwt = jwt_decode(token, { complete: true });
+      const dateNow = new Date();
+      if (decodedTokenJwt.exp > dateNow.getTime()) {
+        sessionStorage.removeItem('user');
+        dispatch(logout());
+      }
       dispatch(login(token));
-      // setIsAuthenticated(true);
     } else {
-      // dispatch(logout(auth));
       dispatch(logout());
     }
-  }, [token, dispatch]);
+  }, [dispatch, token]);
 
   return (
     <BrowserRouter>
-      <NavBar
-      // isAuthenticated={isAuthenticated}
-      // setIsAuthenticated={setIsAuthenticated}
-      />
+      <NavBar />
       <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <Home
-            // setIsAuthenticated={setIsAuthenticated}
-            // isAuthenticated={isAuthenticated}
-            />
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <Home
-            // setIsAuthenticated={setIsAuthenticated}
-            // isAuthenticated={isAuthenticated}
-            />
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <SignIn
-            // setIsAuthenticated={setIsAuthenticated}
-            />
-          }
-        />
-        <Route path="/register" element={<SignUp />} />
+        <Route exact path='/' element={<Home />} />
+        <Route path='/home' element={<Home />} />
+        <Route path='/login' element={<SignIn />} />
+        <Route path='/register' element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );

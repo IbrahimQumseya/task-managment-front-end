@@ -10,19 +10,18 @@ import {
   Link,
   TextField,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
-import React, { useEffect, useState } from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useNavigate } from "react-router-dom";
-const axios = require("axios");
+import React from 'react';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useNavigate } from 'react-router-dom';
+const axios = require('axios');
 
 function SignUp() {
-
   const history = useNavigate();
   const fetchAllData = (allData) => {
     axios
-      .post("http://localhost:3000/auth/signup", {
+      .post('http://localhost:3000/auth/signup', {
         firstName: allData.firstName,
         lastName: allData.lastName,
         email: allData.email,
@@ -30,10 +29,8 @@ function SignUp() {
         username: allData.username,
       })
       .then(function (response) {
-        if (response.data === "USER_CREATED" && response.status === 201) {
-          // alert("the user have been created!");
-          console.log(history);
-          history("/login");
+        if (response.data === 'USER_CREATED' && response.status === 201) {
+          history('/login');
         }
       })
       .catch(function (error) {
@@ -49,12 +46,12 @@ function SignUp() {
 
     const data = new FormData(e.currentTarget);
     const allData = {
-      email: data.get("email"),
-      lastName: data.get("lastName"),
-      firstName: data.get("firstName"),
-      password: data.get("password"),
-      passwordConform: data.get("passwordConform"),
-      username: data.get("username"),
+      email: data.get('email'),
+      lastName: data.get('lastName'),
+      firstName: data.get('firstName'),
+      password: data.get('password'),
+      passwordConform: data.get('passwordConform'),
+      username: data.get('username'),
     };
     if (
       allData.email &&
@@ -68,99 +65,96 @@ function SignUp() {
         // here we work to fetch data POST
         fetchAllData(allData);
       } else {
-        alert("password and conform password doesnt match");
+        alert('password and conform password doesnt match');
       }
     } else {
-      alert("you should fill every field ");
+      alert('you should fill every field ');
     }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component='main' maxWidth='xs'>
       <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component='h1' variant='h5'>
           Sigh Up
         </Typography>
-        <Box sx={{ m1: 3 }} component="form" noValidate onSubmit={handleSubmit}>
+        <Box sx={{ m1: 3 }} component='form' noValidate onSubmit={handleSubmit}>
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="firstName"
-            label="First Name"
-            name="firstName"
-            autoComplete="firstName"
+            id='firstName'
+            label='First Name'
+            name='firstName'
+            autoComplete='firstName'
             autoFocus
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            autoComplete="lastName"
+            id='lastName'
+            label='Last Name'
+            name='lastName'
+            autoComplete='lastName'
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="username"
-            label="User Name"
-            name="username"
-            autoComplete="username"
+            id='username'
+            label='User Name'
+            name='username'
+            autoComplete='username'
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="email"
-            type="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id='email'
+            type='email'
+            label='Email Address'
+            name='email'
+            autoComplete='email'
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="Password"
-            type="password"
-            label="Password"
-            name="password"
-            autoComplete="Password"
+            id='Password'
+            type='password'
+            label='Password'
+            name='password'
+            autoComplete='Password'
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="passwordConform"
-            type="password"
-            label="Conform Password"
-            name="passwordConform"
-            autoComplete="passwordConform"
+            id='passwordConform'
+            type='password'
+            label='Conform Password'
+            name='passwordConform'
+            autoComplete='passwordConform'
           />
-          <FormControlLabel
-            label="i accept the terms"
-            control={<Checkbox value="terms" color="primary" />}
-          />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3 }}>
+          <FormControlLabel label='i accept the terms' control={<Checkbox value='terms' color='primary' />} />
+          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3 }}>
             Sign Up
           </Button>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent='flex-end'>
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link href='/login' variant='body2'>
                 Already have an account? Sign in
               </Link>
             </Grid>

@@ -1,46 +1,61 @@
-import { createSlice } from "@reduxjs/toolkit";
-import {
-  fetchCreateTask,
-  fetchGetAllTasks,
-  fetchDeleteTask,
-} from "../../api/taskAPI";
-import { v4 as uuid } from "uuid";
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchCreateTask, fetchGetAllTasks, fetchDeleteTask } from '../../api/taskAPI';
 const initialState = {
   tasks: [],
-  loading: "idle",
-  isError: "false",
-  isLoading: "false",
-  isPushed: "false",
+  isFulfilled: false,
+  isPending: false,
+  isRejected: false,
+  isPushed: false,
 };
 
 const tasksSlice = createSlice({
-  name: "tasks",
+  name: 'tasks',
   initialState,
-  reducers: {
-    // deleteTask: (state, action) => {
-    //   state.tasks.filter((task) => task.id === action.payload);
-    //   console.log(state.tasks.find((task) => task.id === action.payload));
-    // },
-    addTaskStatePost: (state, action) => {
-      // console.log(action);
-      // state.tasks.push(action.payload);
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(fetchGetAllTasks.pending, (state, _action) => {
+        state.isPending = true;
+      })
       .addCase(fetchGetAllTasks.fulfilled, (state, action) => {
-        state.tasks = state.tasks.concat(action.payload);
-        state.isPushed = "true";
+        state.tasks = action.payload;
+        state.isFulfilled = true;
+        state.isPending = false;
+      })
+      .addCase(fetchGetAllTasks.rejected, (state, _action) => {
+        state.isRejected = true;
+        state.isFulfilled = false;
+        state.isPending = false;
+      })
+      .addCase(fetchCreateTask.pending, (state, _action) => {
+        state.isPending = true;
       })
       .addCase(fetchCreateTask.fulfilled, (state, action) => {
         state.tasks.push(action.payload);
+        state.isFulfilled = true;
+        state.isPending = false;
+      })
+      .addCase(fetchCreateTask.rejected, (state, _action) => {
+        state.isFulfilled = false;
+        state.isPending = false;
+        state.isRejected = true;
+      })
+      .addCase(fetchDeleteTask.pending, (state, { meta }) => {
+        state.isPending = true;
       })
       .addCase(fetchDeleteTask.fulfilled, (state, { meta }) => {
         state.tasks = state.tasks.filter((task) => task.id !== meta.arg);
+        state.isFulfilled = true;
+        state.isPending = false;
+      })
+      .addCase(fetchDeleteTask.rejected, (state, { meta }) => {
+        state.tasks = state.tasks.filter((task) => task.id !== meta.arg);
+        state.isFulfilled = false;
+        state.isPending = false;
+        state.isRejected = true;
       });
   },
 });
 
-export const { addTaskStatePost } = tasksSlice.actions;
 export const selectTasks = (state) => state.tasks;
 export default tasksSlice.reducer;
