@@ -23,7 +23,6 @@ import axios from '../api/newAPI';
 async function loginUser(credentials) {
   try {
     const res = await axios.post('/auth/signin', credentials);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     throw Error(error);
@@ -31,21 +30,18 @@ async function loginUser(credentials) {
 }
 
 export default function SignIn() {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    setPassword(data.get('password'));
-    setUserName(data.get('email'));
 
-    if (username && password) {
+    if (e.target[0].value && e.target[2].value) {
+      // setUserName
       const token = await loginUser({
-        username,
-        password,
+        username: e.target[0].value,
+        password: e.target[2].value,
       });
       if (token.accessToken) {
         dispatch(login(token.accessToken));

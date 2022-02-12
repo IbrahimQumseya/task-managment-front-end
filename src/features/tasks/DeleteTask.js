@@ -15,6 +15,7 @@ import { fetchDeleteTask } from '../../api/taskAPI';
 
 const DeleteTask = ({ id, title, description }) => {
   const [open, setOpen] = React.useState(false);
+
   const dispatch = useDispatch();
   const handleDelete = (e) => {
     setOpen(!open);
