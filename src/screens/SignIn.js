@@ -16,44 +16,51 @@ import React, { useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login, logout } from '../features/user/userSlice';
+import { login } from '../features/user/userSlice';
 
 import axios from '../api/newAPI';
 
-async function loginUser(credentials) {
-  try {
-    const res = await axios.post('/auth/signin', credentials);
-    console.log(res.data);
-    return res.data;
-  } catch (error) {
-    throw Error(error);
-  }
-}
-
 export default function SignIn() {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const handleChangeUsername = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    setPassword(data.get('password'));
-    setUserName(data.get('email'));
 
     if (username && password) {
-      const token = await loginUser({
-        username,
-        password,
-      });
-      if (token.accessToken) {
-        dispatch(login(token.accessToken));
-
-        navigate('/home');
-      } else {
-        dispatch(logout());
-        navigate('/login');
+      try {
+        // This request should be moved into slice/userAPI
+        const res = await axios.post('/auth/signin', {
+          username,
+          password,
+        });
+        const token = res?.data?.accessToken;
+        if (token) {
+          dispatch(login(token));
+          navigate('/home');
+        }
+      } catch (error) {
+        console.log('err', error.response);
+        /*
+          TODO: Display error.response.data.message
+          {
+              "statusCode": 400,
+              "message": [
+                  "username must be shorter than or equal to 20 characters"
+              ],
+              "error": "Bad Request"
+          }
+        */
       }
     }
   };
@@ -81,19 +88,20 @@ export default function SignIn() {
             fullWidth
             id='email'
             label='Email Address'
-            name='email'
-            autoComplete='email'
+            value={username}
+            onChange={handleChangeUsername}
             autoFocus
           />
           <TextField
-            margin='normal'
             required
             fullWidth
             id='password'
             type='password'
             label='Password'
-            name='password'
+            value={password}
+            onChange={handleChangePassword}
             autoComplete='current-password'
+            sx={{ mt: 2 }}
           />
           <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember Me' />
           <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2, height: 45 }}>

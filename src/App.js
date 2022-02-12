@@ -7,10 +7,11 @@ import jwt_decode from 'jwt-decode';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import { login, logout } from './features/user/userSlice';
+
 function App() {
   const dispatch = useDispatch();
   const token = sessionStorage.getItem('user');
-  console.log(token);
+
   useEffect(() => {
     if (token) {
       const decodedTokenJwt = jwt_decode(token, { complete: true });
