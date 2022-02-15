@@ -61,6 +61,7 @@ function SignUp() {
       allData.passwordConform &&
       allData.username
     ) {
+      console.log(allData.password, allData.passwordConform);
       if (allData.password === allData.passwordConform) {
         // here we work to fetch data POST
         fetchAllData(allData);

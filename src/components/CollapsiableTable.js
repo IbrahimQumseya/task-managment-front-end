@@ -47,7 +47,9 @@ function RowComponent(props) {
         </TableCell>
         <TableCell align='center'>{row.description}</TableCell>
         <TableCell align='center'>{row.status}</TableCell>
-        <DeleteTask id={row.id} title='Deleting Task' description='Are you sure you want to delete this task?' />
+        <TableCell align='right' >
+          <DeleteTask id={row.id} title='Deleting Task' description='Are you sure you want to delete this task?' />
+        </TableCell>
       </TableRow>
       {row.taskMetadata && (
         <TableRow style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>

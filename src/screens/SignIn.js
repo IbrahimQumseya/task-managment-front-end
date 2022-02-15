@@ -12,19 +12,34 @@ import {
   Typography,
 } from '@mui/material';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/user/userSlice';
 
 import axios from '../api/newAPI';
+import BasicAlerts from '../components/BasicAlerts';
 
 export default function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [enabled, setEnabled] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (username && password) {
+      setEnabled(false);
+    } else {
+      setEnabled(true);
+    }
+    if (message) {
+      setTimeout(() => {
+        setMessage('');
+      }, 2000);
+    }
+  }, [setEnabled, username, password, message]);
 
   const handleChangeUsername = (event) => {
     setUsername(event.target.value);
@@ -38,6 +53,7 @@ export default function SignIn() {
     e.preventDefault();
 
     if (username && password) {
+      console.log(enabled);
       try {
         // This request should be moved into slice/userAPI
         const res = await axios.post('/auth/signin', {
@@ -50,17 +66,12 @@ export default function SignIn() {
           navigate('/home');
         }
       } catch (error) {
-        console.log('err', error.response);
-        /*
-          TODO: Display error.response.data.message
-          {
-              "statusCode": 400,
-              "message": [
-                  "username must be shorter than or equal to 20 characters"
-              ],
-              "error": "Bad Request"
-          }
-        */
+        if (error.response.data.statusCode === 401) {
+          setMessage(error.response.data.message);
+        }
+        if (error.response.data.statusCode === 400) {
+          setMessage(error.response.data.message);
+        }
       }
     }
   };
@@ -86,11 +97,12 @@ export default function SignIn() {
             margin='normal'
             required
             fullWidth
-            id='email'
-            label='Email Address'
+            id='username'
+            label='Username'
             value={username}
             onChange={handleChangeUsername}
             autoFocus
+            helperText='Should be between 2 to 10 characters'
           />
           <TextField
             required
@@ -104,7 +116,8 @@ export default function SignIn() {
             sx={{ mt: 2 }}
           />
           <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember Me' />
-          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2, height: 45 }}>
+          {message && <BasicAlerts severity='error' message={message} />}
+          <Button type='submit' fullWidth disabled={enabled} variant='contained' sx={{ mt: 3, mb: 2, height: 45 }}>
             Sign In
           </Button>
           <Grid container>

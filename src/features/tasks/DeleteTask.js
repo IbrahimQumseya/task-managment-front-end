@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -29,11 +30,10 @@ const DeleteTask = ({ id, title, description }) => {
         aria-label='deleteTask'
         style={{
           width: 40,
-          alignContent:'center',
-          alignSelf:'center',
-          marginTop:13,
-          marginRight:10
-
+          // alignContent: 'center',
+          // alignSelf: 'center',
+          // marginTop: 13,
+          // marginRight: 10,
         }}
         onClick={() => setOpen(true)}
       >

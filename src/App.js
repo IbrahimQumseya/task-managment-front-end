@@ -3,10 +3,10 @@ import NavBar from './components/NavBar';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Home from './screens/Home';
-import jwt_decode from 'jwt-decode';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import { login, logout } from './features/user/userSlice';
+import jwtDecode from 'jwt-decode';
 
 function App() {
   const dispatch = useDispatch();
@@ -14,13 +14,17 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      const decodedTokenJwt = jwt_decode(token, { complete: true });
+      const decodedTokenJwt = jwtDecode(token, { complete: true });
       const dateNow = new Date();
-      if (decodedTokenJwt.exp > dateNow.getTime()) {
+      console.log(1644769388000 < 1644769629233);
+      console.log(decodedTokenJwt.exp * 1000, dateNow.getTime());
+      if (decodedTokenJwt.exp * 1000 < dateNow.getTime()) {
+        console.log(decodedTokenJwt.exp * 1000 < dateNow.getTime());
         sessionStorage.removeItem('user');
         dispatch(logout());
+      } else {
+        dispatch(login(token));
       }
-      dispatch(login(token));
     } else {
       dispatch(logout());
     }

@@ -2,8 +2,8 @@
   "baseUrl": "http://localhost:3001",
   "experimentalStudio": true,
   "env": {
-    "validUserEmail": "user1",
-    "validUserPassword": "qwe123QWE!@#"
+    "validUserEmail": "user12",
+    "validUserPassword": "hanna121212!S"
   },
   "projectId": "task-management"
 }
