@@ -1,5 +1,4 @@
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
 const instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL_TASK,
   headers: {
@@ -9,11 +8,6 @@ const instance = axios.create({
 
 instance.interceptors.request.use((config) => {
   const token = sessionStorage.getItem('user');
-  // var decodedTokenJwt = jwt_decode(token, { complete: true });
-  // var dateNow = new Date();
-  // if (decodedTokenJwt.exp > dateNow.getTime()) {
-  //   sessionStorage.removeItem("user");
-  // }
   config.headers.Authorization = token ? `Bearer ${token}` : ``;
   return config;
 });

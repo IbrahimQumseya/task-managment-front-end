@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsOpen } from './dialogSlice';
-import { logout } from '../user/userSlice';
 import { fetchDeleteTask } from '../../api/taskAPI';
 
 const DialogComponent = ({ taskId }) => {

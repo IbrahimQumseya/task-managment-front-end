@@ -16,8 +16,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGetAllTasks } from '../api/taskAPI';
 import { selectTasks } from '../features/tasks/tasksSlice';
 import DeleteTask from '../features/tasks/DeleteTask';
-import { CircularProgress } from '@mui/material';
-import CircularIndeterminate from './Spinner';
 import Spinner from './Spinner';
 
 function createData(title, description, status, { details, isDeactivated }) {
@@ -47,8 +45,8 @@ function RowComponent(props) {
         </TableCell>
         <TableCell align='center'>{row.description}</TableCell>
         <TableCell align='center'>{row.status}</TableCell>
-        <TableCell align='right' >
-          <DeleteTask id={row.id} title='Deleting Task' description='Are you sure you want to delete this task?' />
+        <TableCell align='right'>
+          <DeleteTask id={row.id} />
         </TableCell>
       </TableRow>
       {row.taskMetadata && (
