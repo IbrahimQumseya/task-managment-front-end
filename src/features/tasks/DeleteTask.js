@@ -1,45 +1,48 @@
 import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   IconButton,
   Stack,
 } from '@mui/material';
 import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useDispatch } from 'react-redux';
-import { fetchDeleteTask } from '../../api/taskAPI';
+import { useDispatch, useSelector } from 'react-redux';
+import DialogComponent from '../dialog/DialogComponent';
+import {  setDescription, setIsOpen, setTitle } from '../dialog/dialogSlice';
 
 const DeleteTask = ({ id, title, description }) => {
-  const [open, setOpen] = React.useState(false);
+  const _isOpen = useSelector((state) => state.dialog.isOpen);
+  const task = useSelector((state) => state.tasks.tasks.find((task) => task.id === id));
   const dispatch = useDispatch();
-  const handleDelete = (e) => {
-    setOpen(!open);
-    if (id && open) {
-      dispatch(fetchDeleteTask(id));
-    }
-  };
+  console.log(id);
+  if (title && description) {
+    dispatch(setTitle(title));
+    dispatch(setDescription(description));
+  }
+  // dispatch(setContent();
+  // if (!isOpen) {
+  //   dispatch(setTitle(''));
+  //   dispatch(setDescription(''));
+  // }
 
-  return (
+  // const handleDelete = (e) => {
+  //   setOpen(!open);
+  //   if (id && open) {
+  //     dispatch(fetchDeleteTask(id));
+  //   }
+  // };
+
+  return ( 
     <Stack spacing={1}>
       <IconButton
         aria-label='deleteTask'
         style={{
           width: 40,
-          // alignContent: 'center',
-          // alignSelf: 'center',
-          // marginTop: 13,
-          // marginRight: 10,
         }}
-        onClick={() => setOpen(true)}
+        onClick={() => dispatch(setIsOpen(true))}
       >
         <DeleteForeverIcon />
       </IconButton>
-      <Dialog
+      <DialogComponent taskId={task.id} />
+      {/* <Dialog
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby='alert-dialog-title'
@@ -55,7 +58,7 @@ const DeleteTask = ({ id, title, description }) => {
             Yes
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </Stack>
   );
 };
