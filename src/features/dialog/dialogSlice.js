@@ -15,23 +15,20 @@ const dialogSlice = createSlice({
   name: 'dialogs',
   initialState,
   reducers: {
+    openDialog: (state, action) => {
+      state.isOpen = true;
+      state.content = action.payload.content;
+      state.title = action.payload.title;
+      state.description = action.payload.description;
+    },
     setIsOpen: (state, action) => {
       state.isOpen = action.payload;
-    },
-    setContent: (state, action) => {
-      state.content = action.payload;
-    },
-    setTitle: (state, action) => {
-      state.title = action.payload;
-    },
-    setDescription: (state, action) => {
-      state.description = action.payload;
     },
   },
   extraReducers: {},
 });
 
 export const selectDialog = (state) => state;
-export const { setIsOpen, setContent, setDescription, setTitle } = dialogSlice.actions;
+export const { openDialog, setIsOpen } = dialogSlice.actions;
 
 export default dialogSlice.reducer;

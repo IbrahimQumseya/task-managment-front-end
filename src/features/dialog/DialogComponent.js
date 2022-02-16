@@ -7,16 +7,16 @@ import { fetchDeleteTask } from '../../api/taskAPI';
 const DialogComponent = ({ taskId }) => {
   const dialog = useSelector((state) => state.dialog);
   const dispatch = useDispatch();
-  const { isOpen, title, content, description } = dialog;
+  const { title, content, description } = dialog;
 
   const handleYesButton = (e) => {
-    dispatch(setIsOpen(false));
+    // dispatch(setIsOpen(false));
     dispatch(fetchDeleteTask(taskId));
   };
   return (
     <>
       <Dialog
-        open={isOpen}
+        open={dialog.isOpen}
         onClose={() => dispatch(setIsOpen(false))}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
