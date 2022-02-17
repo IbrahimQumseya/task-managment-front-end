@@ -11,15 +11,6 @@ import jwtDecode from 'jwt-decode';
 function App() {
   const dispatch = useDispatch();
   const token = sessionStorage.getItem('user');
-<<<<<<< HEAD
-
-  useEffect(() => {
-    ///modific
-    if (!token) return;
-    const { exp } = jwtDecode(token, { complete: true });
-    const dateNow = +new Date();
-    exp * 1000 < dateNow ? dispatch(logout()) : dispatch(login(token));
-=======
   useEffect(() => {
     if (token) {
       const decodedTokenJwt = jwtDecode(token, { complete: true });
@@ -34,7 +25,6 @@ function App() {
         dispatch(login(token));
       }
     }
->>>>>>> cypress-end-2-end-home-page
   }, [dispatch, token]);
 
   return (

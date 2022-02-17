@@ -15,13 +15,32 @@ import {
 import React from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { fetchAllData } from '../api/taskAPI';
+const axios = require('axios');
 
 function SignUp() {
-  const { t } = useTranslation();
   const history = useNavigate();
-
+  const fetchAllData = (allData) => {
+    axios
+      .post('http://localhost:3000/auth/signup', {
+        firstName: allData.firstName,
+        lastName: allData.lastName,
+        email: allData.email,
+        password: allData.password,
+        username: allData.username,
+      })
+      .then(function (response) {
+        if (response.data === 'USER_CREATED' && response.status === 201) {
+          history('/login');
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        // if (error.request.status === 409) {
+        //   alert("the username already exists!"); // Alert mui
+        // }
+        // console.log(error.request.status);
+      });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -42,20 +61,14 @@ function SignUp() {
       allData.passwordConform &&
       allData.username
     ) {
-      console.log(allData.password, allData.passwordConform);
       if (allData.password === allData.passwordConform) {
         // here we work to fetch data POST
-        try {
-          fetchAllData(allData);
-          history('/login');
-        } catch (error) {
-          throw new Error(error);
-        }
+        fetchAllData(allData);
       } else {
-        alert(t(`doesntMatch`));
+        alert('password and conform password doesnt match');
       }
     } else {
-      alert(t('shouldFill'));
+      alert('you should fill every field ');
     }
   };
 
@@ -74,7 +87,7 @@ function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          {t('SighUp')}
+          Sigh Up
         </Typography>
         <Box sx={{ m1: 3 }} component='form' noValidate onSubmit={handleSubmit}>
           <TextField
@@ -82,7 +95,7 @@ function SignUp() {
             required
             fullWidth
             id='firstName'
-            label={t('firstName')}
+            label='First Name'
             name='firstName'
             autoComplete='firstName'
             autoFocus
@@ -92,7 +105,7 @@ function SignUp() {
             required
             fullWidth
             id='lastName'
-            label={t('LastName')}
+            label='Last Name'
             name='lastName'
             autoComplete='lastName'
           />
@@ -101,7 +114,7 @@ function SignUp() {
             required
             fullWidth
             id='username'
-            label={t('userName')}
+            label='User Name'
             name='username'
             autoComplete='username'
           />
@@ -121,7 +134,7 @@ function SignUp() {
             fullWidth
             id='Password'
             type='password'
-            label={t('Password')}
+            label='Password'
             name='password'
             autoComplete='Password'
           />
@@ -131,18 +144,18 @@ function SignUp() {
             fullWidth
             id='passwordConform'
             type='password'
-            label={t('ConformPassword')}
+            label='Conform Password'
             name='passwordConform'
             autoComplete='passwordConform'
           />
-          <FormControlLabel label={t('AcceptTerms')} control={<Checkbox value='terms' color='primary' />} />
+          <FormControlLabel label='i accept the terms' control={<Checkbox value='terms' color='primary' />} />
           <Button type='submit' fullWidth variant='contained' sx={{ mt: 3 }}>
-            {t('SignUp')}
+            Sign Up
           </Button>
           <Grid container justifyContent='flex-end'>
             <Grid item>
               <Link href='/login' variant='body2'>
-                {t('AlreadyHaveAccount')}
+                Already have an account? Sign in
               </Link>
             </Grid>
           </Grid>

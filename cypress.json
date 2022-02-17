@@ -1,13 +1,3 @@
 {
-<<<<<<< HEAD
-  "baseUrl": "http://localhost:3001",
-  "experimentalStudio": true,
-  "env": {
-    "validUserEmail": "user12",
-    "validUserPassword": "hanna121212!S"
-  },
-  "projectId": "task-management"
-=======
     "baseUrl": "http://localhost:3000"
->>>>>>> cypress-end-2-end-home-page
 }
