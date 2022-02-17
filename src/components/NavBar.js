@@ -35,7 +35,7 @@ function NavBar() {
     setAnchorElUser(e.currentTarget);
   };
   const handleOpenLanguageMenu = (e) => {
-    setLanguageMenu(true);
+    setLanguageMenu(e.currentTarget);
   };
   const handleCloseLanguageMenu = (language, e) => {
     if (language === 'en' || language === 'ro') {
@@ -52,7 +52,7 @@ function NavBar() {
     }
     setAnchorElNav(null);
   };
-  const handleCloseUserMenu = (name) => {
+  const handleCloseUserMenu = (e, name) => {
     if (name === 'Logout' && token) {
       dispatch(logout());
       sessionStorage.clear();
