@@ -23,3 +23,42 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+<<<<<<< HEAD
+=======
+
+import jwtDecode from 'jwt-decode';
+
+Cypress.Commands.add('loginByAuth0Api', (username, password) => {
+  cy.log(`Logging in as ${username}`);
+
+  cy.request({
+    method: 'POST',
+    url: `https://${Cypress.env('auth0_domain')}/signin`,
+    body: {
+      grant_type: 'password',
+      username,
+      password,
+    },
+  }).then(({ body }) => {
+    const claims = jwtDecode(body.id_token);
+    const { username, exp } = claims;
+
+    const item = {
+      body: {
+        ...body,
+        decodedToken: {
+          claims,
+          user: {
+            username,
+          },
+          exp,
+        },
+      },
+    };
+
+    window.localStorage.setItem('auth0Cypress', JSON.stringify(item));
+
+    cy.visit('/');
+  });
+});
+>>>>>>> cypress-end-2-end-home-page

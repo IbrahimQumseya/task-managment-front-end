@@ -5,9 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import DialogComponent from '../dialog/DialogComponent';
 import { openDialog, setIsOpen } from '../dialog/dialogSlice';
 
+<<<<<<< HEAD
 const DeleteTask = ({ id }) => {
   // const _isOpen = useSelector((state) => state.dialog.isOpen);
   const task = useSelector((state) => state.tasks.tasks.find((task) => task.id === id));
+=======
+const DeleteTask = ({ id, title, description }) => {
+  const [open, setOpen] = React.useState(false);
+
+>>>>>>> cypress-end-2-end-home-page
   const dispatch = useDispatch();
 
   const dialogObj = {

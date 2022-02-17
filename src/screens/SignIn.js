@@ -19,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../features/user/userSlice';
 
 import axios from '../api/newAPI';
+<<<<<<< HEAD
 import BasicAlerts from '../components/BasicAlerts';
 import { useTranslation } from 'react-i18next';
 
@@ -28,6 +29,20 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [enabled, setEnabled] = useState(true);
+=======
+
+async function loginUser(credentials) {
+  try {
+    const res = await axios.post('/auth/signin', credentials);
+    return res.data;
+  } catch (error) {
+    throw Error(error);
+  }
+}
+
+export default function SignIn() {
+  const [username, setUsername] = useState('');
+>>>>>>> cypress-end-2-end-home-page
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -54,6 +69,7 @@ export default function SignIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+<<<<<<< HEAD
     if (username && password) {
       console.log(enabled);
       try {
@@ -74,6 +90,21 @@ export default function SignIn() {
         if (error.response.data.statusCode === 400) {
           setMessage(error.response.data.message);
         }
+=======
+    if (e.target[0].value && e.target[2].value) {
+      // setUserName
+      const token = await loginUser({
+        username: e.target[0].value,
+        password: e.target[2].value,
+      });
+      if (token.accessToken) {
+        dispatch(login(token.accessToken));
+
+        navigate('/home');
+      } else {
+        dispatch(logout());
+        navigate('/login');
+>>>>>>> cypress-end-2-end-home-page
       }
     }
   };
