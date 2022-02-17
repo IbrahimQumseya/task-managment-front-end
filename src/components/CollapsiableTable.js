@@ -18,6 +18,7 @@ import { selectTasks } from '../features/tasks/tasksSlice';
 import DeleteTask from '../features/tasks/DeleteTask';
 import Spinner from './Spinner';
 import { useTranslation } from 'react-i18next';
+import { TablePagination } from '@mui/material';
 
 function createData(title, description, status, { details, isDeactivated }) {
   return {
@@ -85,17 +86,27 @@ function RowComponent(props) {
 }
 
 function CollapsibleTable() {
+  const tasks = useSelector(selectTasks);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const userIsAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const dispatch = useDispatch();
-  const tasks = useSelector(selectTasks);
   const token = sessionStorage.getItem('user');
   const { t } = useTranslation();
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   useEffect(() => {
     if (userIsAuthenticated) {
       dispatch(fetchGetAllTasks(token));
     }
-    // getTasks(token, setData);
   }, [dispatch, userIsAuthenticated, token]);
 
   return (
@@ -113,7 +124,7 @@ function CollapsibleTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tasks.tasks.map((value, index) => {
+            {tasks.tasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((value, index) => {
               createData(value.title, value.description, value.status, {
                 isDeactivated: value.taskMetadata?.isDeactivated,
                 details: value.taskMetadata?.details,
@@ -123,10 +134,17 @@ function CollapsibleTable() {
           </TableBody>
         </Table>
       )}
+      <TablePagination
+        component='div'
+        rowsPerPageOptions={[5, 10, 20]}
+        count={tasks.tasks.length}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </TableContainer>
   );
 }
-
-// RowComponent.propTypes = {
 
 export default CollapsibleTable;

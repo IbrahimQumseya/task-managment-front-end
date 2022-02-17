@@ -11,6 +11,7 @@ function Home() {
       <Container maxWidth='lg'>
         <AddATask />
         <CollapsibleTable />
+        
       </Container>
     );
   }

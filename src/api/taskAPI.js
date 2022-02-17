@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from './newAPI';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const fetchAllData =(allData) => {
+export const fetchAllData = (allData) => {
   axios
     .post('/auth/signup', {
       firstName: allData.firstName,

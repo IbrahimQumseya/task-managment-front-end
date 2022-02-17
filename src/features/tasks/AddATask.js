@@ -1,24 +1,34 @@
 import { Button, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchCreateTask } from '../../api/taskAPI';
 import { useTranslation } from 'react-i18next';
 function AddATask() {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
     const allData = {
-      title: data.get('title'),
-      description: data.get('description'),
+      title,
+      description,
       status: 'OPEN',
       token: sessionStorage.getItem('user'),
     };
 
     if (allData.title && allData.description) {
       dispatch(fetchCreateTask(allData));
+      setDescription('');
+      setTitle('');
     }
   };
   return (
@@ -43,7 +53,9 @@ function AddATask() {
           id='title'
           label={t('Title')}
           name='title'
+          value={title}
           autoComplete='title'
+          onChange={handleTitleChange}
           autoFocus
         />
         <TextField
@@ -53,7 +65,9 @@ function AddATask() {
           id='description'
           label={t('Description')}
           name='description'
+          value={description}
           autoComplete='description'
+          onChange={handleDescriptionChange}
         />
         <Button type='submit' variant='contained' sx={{ mt: 3 }}>
           {t('AddTask')}
