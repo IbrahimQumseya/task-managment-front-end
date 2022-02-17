@@ -13,21 +13,11 @@ function App() {
   const token = sessionStorage.getItem('user');
 
   useEffect(() => {
-    if (token) {
-      const decodedTokenJwt = jwtDecode(token, { complete: true });
-      const dateNow = new Date();
-      console.log(1644769388000 < 1644769629233);
-      console.log(decodedTokenJwt.exp * 1000, dateNow.getTime());
-      if (decodedTokenJwt.exp * 1000 < dateNow.getTime()) {
-        console.log(decodedTokenJwt.exp * 1000 < dateNow.getTime());
-        sessionStorage.removeItem('user');
-        dispatch(logout());
-      } else {
-        dispatch(login(token));
-      }
-    } else {
-      dispatch(logout());
-    }
+    ///modific
+    if (!token) return;
+    const { exp } = jwtDecode(token, { complete: true });
+    const dateNow = +new Date();
+    exp * 1000 < dateNow ? dispatch(logout()) : dispatch(login(token));
   }, [dispatch, token]);
 
   return (

@@ -17,6 +17,7 @@ import { fetchGetAllTasks } from '../api/taskAPI';
 import { selectTasks } from '../features/tasks/tasksSlice';
 import DeleteTask from '../features/tasks/DeleteTask';
 import Spinner from './Spinner';
+import { useTranslation } from 'react-i18next';
 
 function createData(title, description, status, { details, isDeactivated }) {
   return {
@@ -30,6 +31,7 @@ function createData(title, description, status, { details, isDeactivated }) {
   };
 }
 function RowComponent(props) {
+  const { t } = useTranslation();
   const { row } = props;
   const [open, setOpen] = useState(false);
   return (
@@ -54,13 +56,13 @@ function RowComponent(props) {
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant='h6' gutterBottom component='div'>
-                History
+                {t('History')}
               </Typography>
               <Table size='medium' arial-label='purchases'>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Details</TableCell>
-                    <TableCell>Task Activated</TableCell>
+                    <TableCell>{t('Details')}</TableCell>
+                    <TableCell>{t('TaskActivated')}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -87,6 +89,7 @@ function CollapsibleTable() {
   const dispatch = useDispatch();
   const tasks = useSelector(selectTasks);
   const token = sessionStorage.getItem('user');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (userIsAuthenticated) {
@@ -104,9 +107,9 @@ function CollapsibleTable() {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell>title</TableCell>
-              <TableCell align='center'>description</TableCell>
-              <TableCell>status</TableCell>
+              <TableCell>{t('Title')}</TableCell>
+              <TableCell align='center'>{t('Description')}</TableCell>
+              <TableCell>{t('Status')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

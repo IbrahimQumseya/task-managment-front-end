@@ -3,8 +3,9 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchCreateTask } from '../../api/taskAPI';
-
+import { useTranslation } from 'react-i18next';
 function AddATask() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ function AddATask() {
       {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
       </Avatar> */}
       <Typography component='h1' variant='h5'>
-        Create A task
+        {t('CreateTask')}
       </Typography>
       <Box sx={{ m1: 3 }} component='form' noValidate onSubmit={handleSubmit}>
         <TextField
@@ -40,7 +41,7 @@ function AddATask() {
           required
           fullWidth
           id='title'
-          label='Title'
+          label={t('Title')}
           name='title'
           autoComplete='title'
           autoFocus
@@ -50,12 +51,12 @@ function AddATask() {
           required
           fullWidth
           id='description'
-          label='Description'
+          label={t('Description')}
           name='description'
           autoComplete='description'
         />
         <Button type='submit' variant='contained' sx={{ mt: 3 }}>
-          Add a task
+          {t('AddTask')}
         </Button>
       </Box>
     </Box>

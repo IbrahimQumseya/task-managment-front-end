@@ -20,8 +20,10 @@ import { login } from '../features/user/userSlice';
 
 import axios from '../api/newAPI';
 import BasicAlerts from '../components/BasicAlerts';
+import { useTranslation } from 'react-i18next';
 
 export default function SignIn() {
+  const { t } = useTranslation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -90,7 +92,7 @@ export default function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign In
+          {t('SignIn')}
         </Typography>
         <Box sx={{ mt: 1 }} component='form' noValidate onSubmit={handleSubmit}>
           <TextField
@@ -98,18 +100,18 @@ export default function SignIn() {
             required
             fullWidth
             id='username'
-            label='Username'
+            label={t('userName')}
             value={username}
             onChange={handleChangeUsername}
             autoFocus
-            helperText='Should be between 2 to 10 characters'
+            helperText={t('ShouldBeCharacters')}
           />
           <TextField
             required
             fullWidth
             id='password'
             type='password'
-            label='Password'
+            label={t('Password')}
             value={password}
             onChange={handleChangePassword}
             autoComplete='current-password'
@@ -118,17 +120,17 @@ export default function SignIn() {
           <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember Me' />
           {message && <BasicAlerts severity='error' message={message} />}
           <Button type='submit' fullWidth disabled={enabled} variant='contained' sx={{ mt: 3, mb: 2, height: 45 }}>
-            Sign In
+            {t('SignIn')}
           </Button>
           <Grid container>
             <Grid item xs>
               <Link href='#' variant='body2'>
-                Forgot password?
+                {t('forgotPassword')}
               </Link>
             </Grid>
             <Grid item>
               <Link href='/register' variant='body2'>
-                {"Don't have an account? Sign Up"}
+                {t('DontHaveAnAccount')}
               </Link>
             </Grid>
           </Grid>
