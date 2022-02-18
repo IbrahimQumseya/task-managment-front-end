@@ -19,27 +19,27 @@ import DeleteTask from '../features/tasks/DeleteTask';
 import Spinner from './Spinner';
 import { useTranslation } from 'react-i18next';
 import { TablePagination } from '@mui/material';
+import { selectMetadata } from '../features/taskmetadata/metadataSlice';
+import { fetchGetMetadataById } from '../api/metadataAPI';
 
-function createData(title, description, status, { details, isDeactivated }) {
-  return {
-    title,
-    description,
-    status,
-    taskMetadata: {
-      details,
-      isDeactivated,
-    },
-  };
-}
 function RowComponent(props) {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { row } = props;
+  const metadata = useSelector(selectMetadata);
   const [open, setOpen] = useState(false);
+
+  const handleGetMetadata = (id) => {
+    if (id) {
+      dispatch(fetchGetMetadataById(id));
+      setOpen(!open);
+    }
+  };
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
         <TableCell>
-          <IconButton aria-label='expand row' size='small' onClick={() => setOpen(!open)}>
+          <IconButton aria-label='expand row' size='small' onClick={() => handleGetMetadata(row.id)}>
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -52,7 +52,7 @@ function RowComponent(props) {
           <DeleteTask id={row.id} />
         </TableCell>
       </TableRow>
-      {row.taskMetadata && (
+      {metadata && (
         <TableRow style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box sx={{ margin: 1 }}>
@@ -69,11 +69,9 @@ function RowComponent(props) {
                 <TableBody>
                   <TableRow>
                     <TableCell component='th' scope='row'>
-                      {row.taskMetadata.details ? row.taskMetadata.details : null}
+                      {metadata.details ? metadata.details : null}
                     </TableCell>
-                    <TableCell>
-                      {row.taskMetadata.isDeactivated.toString() ? row.taskMetadata.isDeactivated.toString() : null}
-                    </TableCell>
+                    <TableCell>{metadata.isDeactivated ? 'Is Deactivated' : 'not Deactivated'}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -125,10 +123,6 @@ function CollapsibleTable() {
           </TableHead>
           <TableBody>
             {tasks.tasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((value, index) => {
-              createData(value.title, value.description, value.status, {
-                isDeactivated: value.taskMetadata?.isDeactivated,
-                details: value.taskMetadata?.details,
-              });
               return <RowComponent key={index} row={value} />;
             })}
           </TableBody>

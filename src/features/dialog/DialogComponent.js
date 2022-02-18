@@ -10,7 +10,7 @@ const DialogComponent = ({ taskId }) => {
   const { title, content, description } = dialog;
 
   const handleYesButton = (e) => {
-    // dispatch(setIsOpen(false));
+    dispatch(setIsOpen(false));
     dispatch(fetchDeleteTask(taskId));
   };
   return (
