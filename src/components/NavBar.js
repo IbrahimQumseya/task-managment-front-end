@@ -35,7 +35,7 @@ function NavBar() {
     setAnchorElUser(e.currentTarget);
   };
   const handleOpenLanguageMenu = (e) => {
-    setLanguageMenu(true);
+    setLanguageMenu(e.currentTarget);
   };
   const handleCloseLanguageMenu = (language, e) => {
     if (language === 'en' || language === 'ro') {

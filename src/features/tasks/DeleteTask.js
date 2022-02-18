@@ -3,7 +3,7 @@ import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { useDispatch, useSelector } from 'react-redux';
 import DialogComponent from '../dialog/DialogComponent';
-import { openDialog, setIsOpen } from '../dialog/dialogSlice';
+import { openDialog } from '../dialog/dialogSlice';
 
 const DeleteTask = ({ id }) => {
   // const _isOpen = useSelector((state) => state.dialog.isOpen);
