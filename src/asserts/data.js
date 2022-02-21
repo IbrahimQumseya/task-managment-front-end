@@ -1,37 +1,49 @@
 const pages = [
   {
     id: 1,
-    name: "Login",
-    path: "/login",
+    name: 'Login',
+    path: '/login',
   },
   {
     id: 2,
-    name: "Register",
-    path: "/register",
+    name: 'Register',
+    path: '/register',
   },
   {
     id: 3,
-    name: "Home",
-    path: "/home",
+    name: 'Home',
+    path: '/home',
+  },
+];
+const languages = [
+  {
+    id: 1,
+    name: 'English',
+    lang: 'en',
+  },
+  {
+    id: 2,
+    name: 'Romania',
+    lang: 'ro',
   },
 ];
 const settings = [
   {
-    name: "Profile",
+    name: 'Profile',
     id: 1,
   },
   {
-    name: "Account",
+    name: 'Account',
     id: 2,
   },
   {
-    name: "Dashboard",
+    name: 'Dashboard',
     id: 3,
   },
   {
-    name: "Logout",
+    name: 'Logout',
     id: 4,
   },
 ];
 
-export { settings, pages };
+export { settings, pages, languages };

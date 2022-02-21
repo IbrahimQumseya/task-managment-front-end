@@ -4,7 +4,6 @@ import CollapsibleTable from '../components/CollapsiableTable';
 import { Container } from '@mui/material';
 import AddATask from '../features/tasks/AddATask';
 import { useSelector } from 'react-redux';
-import { selectTasks } from '../features/tasks/tasksSlice';
 function Home() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   if (isAuthenticated) {
@@ -12,6 +11,7 @@ function Home() {
       <Container maxWidth='lg'>
         <AddATask />
         <CollapsibleTable />
+        
       </Container>
     );
   }

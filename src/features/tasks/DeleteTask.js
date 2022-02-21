@@ -1,28 +1,23 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  IconButton,
-  Stack,
-} from '@mui/material';
+import { IconButton, Stack } from '@mui/material';
 import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useDispatch } from 'react-redux';
-import { fetchDeleteTask } from '../../api/taskAPI';
+import { useDispatch, useSelector } from 'react-redux';
+import DialogComponent from '../dialog/DialogComponent';
+import { openDialog } from '../dialog/dialogSlice';
 
-const DeleteTask = ({ id, title, description }) => {
-  const [open, setOpen] = React.useState(false);
-
+const DeleteTask = ({ id }) => {
+  // const _isOpen = useSelector((state) => state.dialog.isOpen);
+  const task = useSelector((state) => state.tasks.tasks.find((task) => task.id === id));
   const dispatch = useDispatch();
-  const handleDelete = (e) => {
-    setOpen(!open);
-    if (id && open) {
-      dispatch(fetchDeleteTask(id));
-    }
+
+  const dialogObj = {
+    title: 'Delete Task',
+    content: `"${task.description}"`,
+    description: `Are you sure you want to delete this task "${task.title}"`,
   };
+
+  if (dialogObj) {
+  }
 
   return (
     <Stack spacing={1}>
@@ -30,33 +25,12 @@ const DeleteTask = ({ id, title, description }) => {
         aria-label='deleteTask'
         style={{
           width: 40,
-          alignContent:'center',
-          alignSelf:'center',
-          marginTop:13,
-          marginRight:10
-
         }}
-        onClick={() => setOpen(true)}
+        onClick={() => dispatch(openDialog(dialogObj))}
       >
         <DeleteForeverIcon />
       </IconButton>
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>{description}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>No</Button>
-          <Button onClick={handleDelete} autoFocus>
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DialogComponent taskId={task.id} />
     </Stack>
   );
 };

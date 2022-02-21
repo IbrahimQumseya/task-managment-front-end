@@ -23,6 +23,8 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+<<<<<<< HEAD
+=======
 
 import jwtDecode from 'jwt-decode';
 
@@ -59,3 +61,4 @@ Cypress.Commands.add('loginByAuth0Api', (username, password) => {
     cy.visit('/');
   });
 });
+>>>>>>> main

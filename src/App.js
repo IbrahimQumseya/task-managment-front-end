@@ -11,20 +11,13 @@ import jwtDecode from 'jwt-decode';
 function App() {
   const dispatch = useDispatch();
   const token = sessionStorage.getItem('user');
+
   useEffect(() => {
-    if (token) {
-      const decodedTokenJwt = jwtDecode(token, { complete: true });
-      const dateNow = +new Date();
-      console.log(dateNow, decodedTokenJwt.exp);
-      console.log(decodedTokenJwt.exp * 1000 < dateNow);
-      if (decodedTokenJwt.exp *1000 < dateNow) {
-        console.log('logout');
-        dispatch(logout());
-      } else {
-        console.log('login');
-        dispatch(login(token));
-      }
-    }
+    ///modific
+    if (!token) return;
+    const { exp } = jwtDecode(token, { complete: true });
+    const dateNow = +new Date();
+    exp * 1000 < dateNow ? dispatch(logout()) : dispatch(login(token));
   }, [dispatch, token]);
 
   return (
