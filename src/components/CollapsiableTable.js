@@ -30,10 +30,10 @@ function RowComponent(props) {
   const [open, setOpen] = useState(false);
 
   const handleGetMetadata = (id) => {
-    if (id) {
+    if (id && !open) {
       dispatch(fetchGetMetadataById(id));
-      setOpen(!open);
     }
+    setOpen(!open);
   };
   return (
     <React.Fragment>
@@ -52,7 +52,7 @@ function RowComponent(props) {
           <DeleteTask id={row.id} />
         </TableCell>
       </TableRow>
-      {metadata && (
+      {/* {metadata && ( */}
         <TableRow style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout='auto' unmountOnExit>
             <Box sx={{ margin: 1 }}>
@@ -78,7 +78,7 @@ function RowComponent(props) {
             </Box>
           </Collapse>
         </TableRow>
-      )}
+      {/* )} */}
     </React.Fragment>
   );
 }

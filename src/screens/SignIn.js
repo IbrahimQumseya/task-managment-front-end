@@ -41,7 +41,7 @@ export default function SignIn() {
         setMessage('');
       }, 2000);
     }
-  }, [setEnabled, username, password, message]);
+  }, [username, password, message]);
 
   const handleChangeUsername = (event) => {
     setUsername(event.target.value);
@@ -68,12 +68,7 @@ export default function SignIn() {
           navigate('/home');
         }
       } catch (error) {
-        if (error.response.data.statusCode === 401) {
-          setMessage(error.response.data.message);
-        }
-        if (error.response.data.statusCode === 400) {
-          setMessage(error.response.data.message);
-        }
+        setMessage(error.response.data.message);
       }
     }
   };
