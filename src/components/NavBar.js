@@ -66,7 +66,7 @@ function NavBar() {
     }
     setAnchorElNav(null);
   };
-  const handleCloseUserMenu = (name) => {
+  const handleCloseUserMenu = (e, name) => {
     if (name === 'Logout' && token) {
       dispatch(logout());
       sessionStorage.clear();

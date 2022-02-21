@@ -1,4 +1,8 @@
 {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f7b22ab2b060675ed6caa23698739396e39606a7
   "name": "authenticationreact",
   "version": "0.1.0",
   "private": true,
@@ -57,4 +61,74 @@
   "devDependencies": {
     "cypress": "^9.4.1"
   }
+<<<<<<< HEAD
+=======
+=======
+    "name": "authenticationreact",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@emotion/react": "^11.7.1",
+        "@emotion/styled": "^11.6.0",
+        "@material-ui/core": "^4.12.3",
+        "@material-ui/icons": "^4.11.2",
+        "@mui/icons-material": "^5.3.1",
+        "@mui/material": "^5.3.1",
+        "@mui/styled-engine-sc": "^5.3.0",
+        "@reduxjs/toolkit": "^1.7.1",
+        "@testing-library/jest-dom": "^5.16.2",
+        "@testing-library/react": "^12.1.2",
+        "@testing-library/user-event": "^13.5.0",
+        "axios": "^0.25.0",
+        "bcrypt": "^5.0.1",
+        "dotenv": "^16.0.0",
+        "enzyme": "^3.11.0",
+        "jwt-decode": "^3.1.2",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-redux": "^7.2.6",
+        "react-router-dom": "^6.2.1",
+        "react-scripts": "5.0.0",
+        "styled-components": "^5.3.3",
+        "uuid": "^8.3.2",
+        "web-vitals": "^2.1.4"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "wdio": "wdio run test/wdio.conf.ts"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@wdio/cli": "^7.16.14",
+        "@wdio/local-runner": "^7.16.14",
+        "@wdio/mocha-framework": "^7.16.14",
+        "@wdio/spec-reporter": "^7.16.14",
+        "chromedriver": "^98.0.0",
+        "cypress": "^9.4.1",
+        "ts-node": "^10.5.0",
+        "typescript": "^4.5.5",
+        "wdio-chromedriver-service": "^7.2.6"
+    }
+>>>>>>> cypress-end-2-end-home-page
+>>>>>>> f7b22ab2b060675ed6caa23698739396e39606a7
 }
