@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // ***********************************************************
 // This example support/index.js is processed and
 // loaded automatically before your test files.
@@ -19,11 +19,4 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
-=======
 
-import './commands';
-<<<<<<< HEAD
->>>>>>> main
-=======
->>>>>>> cypress-end-2-end-home-page
->>>>>>> f7b22ab2b060675ed6caa23698739396e39606a7
