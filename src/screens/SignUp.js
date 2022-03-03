@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -78,8 +78,8 @@ function SignUp() {
       if (allData.password === allData.passwordConform) {
         // here we work to fetch data POST
         try {
-          // fetchAllData(allData);
-          // history('/login');
+          fetchAllData(allData);
+          history('/login');
         } catch (error) {
           throw new Error(error);
         }
@@ -218,7 +218,7 @@ function SignUp() {
             }
           />
 
-          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3 }}>
+          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3 }} disabled={!formik.values.acceptTerms}>
             {t('SignUp')}
           </Button>
           <Grid container justifyContent='flex-end'>
