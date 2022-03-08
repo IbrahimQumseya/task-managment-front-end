@@ -6,12 +6,13 @@ import {
   Container,
   CssBaseline,
   FormControlLabel,
+  FormGroup,
   Grid,
   Link,
   TextField,
   Typography,
 } from '@mui/material';
-import { useFormik } from 'formik';
+import { ErrorMessage, Field, Form, useFormik } from 'formik';
 import React from 'react';
 import * as yup from 'yup';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -21,7 +22,10 @@ import { fetchAllData } from '../api/taskAPI';
 
 const validationSchema = yup.object({
   email: yup.string('Enter your email').email('Enter a valid email').required('Email is required'),
-  acceptTerms: yup.bool('please accept the terms'),
+  acceptTerms: yup
+    .boolean()
+    .required('The terms and conditions must be accepted.')
+    .oneOf([true], 'The terms and conditions must be accepted.'),
   password: yup
     .string('Enter your password')
     .min(8, 'Password should be of minimum 8 characters length')
@@ -57,28 +61,12 @@ function SignUp() {
 
   const handleSubmit = (values) => {
     const { email, lastName, firstName, password, passwordConform, username } = values;
-    console.log(values);
-    const allData = {
-      email,
-      lastName,
-      firstName,
-      password,
-      passwordConform,
-      username,
-    };
-    if (
-      allData.email &&
-      allData.firstName &&
-      allData.lastName &&
-      allData.password &&
-      allData.passwordConform &&
-      allData.username
-    ) {
-      console.log(allData.password, allData.passwordConform);
-      if (allData.password === allData.passwordConform) {
+
+    if (email && firstName && lastName && password && passwordConform && username) {
+      if (password === passwordConform) {
         // here we work to fetch data POST
         try {
-          fetchAllData(allData);
+          fetchAllData(values);
           history('/login');
         } catch (error) {
           throw new Error(error);
@@ -206,6 +194,14 @@ function SignUp() {
             error={formik.touched.passwordConform && Boolean(formik.errors.passwordConform)}
             helperText={formik.touched.passwordConform && formik.errors.passwordConform}
           />
+          {/* <Form>
+            <Field
+              type='acceptTerms'
+              name='acceptTerms'
+              component={CheckBoxComponent}
+            
+            />
+          </Form> */}
           <FormControlLabel
             label={t('AcceptTerms')}
             control={
@@ -213,12 +209,15 @@ function SignUp() {
                 value={formik.values.acceptTerms}
                 color='primary'
                 checked={formik.values.acceptTerms}
-                onChange={() => formik.setFieldValue('acceptTerms', !formik.values.acceptTerms)}
+                onChange={() => {
+                  formik.setFieldValue('acceptTerms', !formik.values.acceptTerms);
+                }}
               />
             }
           />
+          {formik.touched.acceptTerms && formik.errors.acceptTerms && <div style={{color:'red'}} >{formik.errors.acceptTerms}</div>}
 
-          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3 }} disabled={!formik.values.acceptTerms}>
+          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3 }}>
             {t('SignUp')}
           </Button>
           <Grid container justifyContent='flex-end'>
