@@ -9,9 +9,10 @@ import {
   Table,
   TableHead,
   TableBody,
-  TableContainer,
+  TablePagination,
   Fade,
-  Paper
+  Paper,
+  TableContainer,
 } from '@mui/material/';
 import { TransitionGroup } from 'react-transition-group';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -22,7 +23,6 @@ import { selectTasks } from '../features/tasks/tasksSlice';
 import DeleteTask from '../features/tasks/DeleteTask';
 import Spinner from './Spinner';
 import { useTranslation } from 'react-i18next';
-import { TablePagination } from '@mui/material';
 import { selectMetadata } from '../features/taskmetadata/metadataSlice';
 import { fetchGetMetadataById } from '../api/metadataAPI';
 import TransitionTable from './TransitionTable';
@@ -113,32 +113,30 @@ function CollapsibleTable() {
   }, [dispatch, userIsAuthenticated, token]);
 
   return (
-    <TransitionTable/>
+    <TransitionTable />
     // <TableContainer component={Paper}>
     //   {tasks.isPending ? (
     //     <Spinner />
     //   ) : (
-    //     <TransitionGroup >
-    //       <Table aria-label='collapsible table'>
-    //         <TableHead>
-    //           <TableRow>
-    //             <TableCell />
-    //             <TableCell>{t('Title')}</TableCell>
-    //             <TableCell align='center'>{t('Description')}</TableCell>
-    //             <TableCell>{t('Status')}</TableCell>
-    //           </TableRow>
-    //         </TableHead>
-    //         <TableBody>
-    //           {tasks.tasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((value, index) => {
-    //             return (
-    //               <Fade key={index}>
-    //                 <RowComponent key={index} row={value} />
-    //               </Fade>
-    //             );
-    //           })}
-    //         </TableBody>
-    //       </Table>
-    //     </TransitionGroup>
+    //     <Table aria-label='collapsible table'>
+    //       <TableHead>
+    //         <TableRow>
+    //           <TableCell />
+    //           <TableCell>{t('Title')}</TableCell>
+    //           <TableCell align='center'>{t('Description')}</TableCell>
+    //           <TableCell>{t('Status')}</TableCell>
+    //         </TableRow>
+    //       </TableHead>
+    //       <TableBody>
+    //         {tasks.tasks.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((value, index) => {
+    //           return (
+    //             <Fade key={index}>
+    //               <RowComponent key={index} row={value} />
+    //             </Fade>
+    //           );
+    //         })}
+    //       </TableBody>
+    //     </Table>
     //   )}
     //   <TablePagination
     //     component='div'
