@@ -1,15 +1,3 @@
-// import AppBar from '@mui/material/AppBar';
-// import Box from '@mui/material/Box';
-// import Toolbar from '@mui/material/Toolbar';
-// import IconButton from '@mui/material/IconButton';
-// import Typography from '@mui/material/Typography';
-// import Menu from '@mui/material/Menu';
-// import MenuIcon from '@mui/icons-material/Menu';
-// import Container from '@mui/material/Container';
-// import Avatar from '@mui/material/Avatar';
-// import Button from '@mui/material/Button';
-// import Tooltip from '@mui/material/Tooltip';
-// import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { languages, pages, settings } from '../asserts/data';
@@ -31,6 +19,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { fetchGetUserDetails } from '../api/userAPI';
 function NavBar() {
   //setIsAuthenticated and isAuthenticated
   let navigate = useNavigate();
@@ -67,11 +56,16 @@ function NavBar() {
     setAnchorElNav(null);
   };
   const handleCloseUserMenu = (e, name) => {
-    if (name === 'Logout' && token) {
+    if (e === 'Logout' && token) {
       dispatch(logout());
       sessionStorage.clear();
       navigate('/login');
       setAnchorElUser(null);
+    }
+    console.log(e);
+    if (e === 'Profile') {
+      dispatch(fetchGetUserDetails());
+      navigate('/user/profile');
     }
     setAnchorElUser(null);
   };

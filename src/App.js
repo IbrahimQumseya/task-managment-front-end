@@ -7,6 +7,7 @@ import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import { login, logout } from './features/user/userSlice';
 import jwtDecode from 'jwt-decode';
+import ProfileUser from './screens/user/ProfileUser';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/login' element={<SignIn />} />
         <Route path='/register' element={<SignUp />} />
+        <Route path='/user/profile' element={<ProfileUser />} />
       </Routes>
     </BrowserRouter>
   );
