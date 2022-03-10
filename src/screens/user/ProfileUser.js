@@ -2,47 +2,61 @@ import { Avatar, Button, Container, CssBaseline, Grid, IconButton, TextField, Ty
 import { Box } from '@mui/system';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createUserDetails, fetchGetUserDetails, updateUserDetails } from '../../api/userAPI';
-import Spinner from '../../components/Spinner';
-import { selectUserDetails } from '../../features/user/userSlice';
+import { fetchGetUserDetails, updateUserDetails } from '../../api/userAPI';
+
+import { selectUser, setUserFirstnameLastname } from '../../features/user/userSlice';
 import SignIn from '../SignIn';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { useTranslation } from 'react-i18next';
+import BasicAlerts from '../../components/BasicAlerts';
 
 const ProfileUser = () => {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const userDetails = useSelector((state) => state.user.userDetails);
-  const tasks = useSelector((state) => state.tasks.tasks);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(fetchGetUserDetails());
-    }
-  }, [isAuthenticated, dispatch]);
 
   const { t } = useTranslation();
 
-  const [location, setLocation] = useState('');
-  const [address, setAddress] = useState('');
-  const [number, setNumber] = useState('');
-  const [telephone, setTelephone] = useState('');
+  const [location, setLocation] = useState(userDetails.location);
+  const [address, setAddress] = useState(userDetails.address);
+  const [number, setNumber] = useState(userDetails.number);
+  const [telephone, setTelephone] = useState(userDetails.telephone);
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [idUser, setIdUser] = useState(user.id);
+  const [message, setMessage] = useState('');
   const [enableEdit, setEnableEdit] = useState(true);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchGetUserDetails());
+      if (message) {
+        setTimeout(() => {
+          setMessage('');
+        }, 3000);
+      }
+    }
+  }, [isAuthenticated, dispatch, setMessage, message]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (location && address && number && telephone) {
+    if (location && address && number && telephone && firstName && lastName) {
       const bodyParameters = {
-        firstName: 'testFirstname',
-        lastName: 'testLastName',
+        firstName,
+        lastName,
         location,
         address,
         number: String(number),
         telephone: String(number),
       };
-      console.log('distpatching');
       dispatch(updateUserDetails(bodyParameters));
+      setEnableEdit(!enableEdit);
+      setMessage('User has been updated cu success');
+      dispatch(setUserFirstnameLastname({ firstName, lastName }));
     }
     // if (!userDetails.location && !userDetails.address && !userDetails.number && !userDetails.telephone) {
+    //   console.log('00');
     //   const bodyParameters = {
     //     location,
     //     address,
@@ -50,38 +64,32 @@ const ProfileUser = () => {
     //     telephone: String(number),
     //   };
     //   console.log(bodyParameters);
-    //   dispatch(createUserDetails(tasks[0]?.user?.id, bodyParameters));
+    //   dispatch(createUserDetails(idUser, bodyParameters));
     // }
   };
 
+  const handleChangeFirstName = (e) => {
+    setFirstName(e.target.value);
+  };
+  const handleChangeLastName = (e) => {
+    setLastName(e.target.value);
+  };
   const handleChangeLocation = (e) => {
-    if (location === '') {
-      setLocation(userDetails.location);
-    }
     setLocation(e.target.value);
   };
   const handleChangeAddress = (e) => {
-    if (address === '') {
-      setAddress(userDetails.address);
-    }
     setAddress(e.target.value);
   };
   const handleChangeNumber = (e) => {
-    if (number === '') {
-      setNumber(userDetails.number);
-    }
     setNumber(e.target.value);
   };
   const handleChangeTelephone = (e) => {
-    if (telephone === '') {
-      setTelephone(userDetails.telephone);
-    }
     setTelephone(e.target.value);
   };
 
   if (isAuthenticated) {
     return (
-      <Container maxWidth='lg' component='main'>
+      <Container maxWidth='md' component='main'>
         <CssBaseline />
         <Box
           sx={{
@@ -124,12 +132,43 @@ const ProfileUser = () => {
             <TextField
               margin='normal'
               fullWidth
+              id='firstName'
+              type='firstName'
+              disabled={enableEdit}
+              label={t('firstName')}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={firstName}
+              onChange={handleChangeFirstName}
+            />
+            <TextField
+              margin='normal'
+              fullWidth
+              id='lastName'
+              type='lastName'
+              disabled={enableEdit}
+              label={t('lastName')}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={lastName}
+              onChange={handleChangeLastName}
+            />
+            <TextField
+              margin='normal'
+              fullWidth
               id='location'
               disabled={enableEdit}
               label={t('location')}
-              value={location ? location : userDetails.location}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={location}
+              // value={location ? location : userDetails.location}
               onChange={handleChangeLocation}
             />
+
             <TextField
               margin='normal'
               fullWidth
@@ -137,7 +176,10 @@ const ProfileUser = () => {
               type='number'
               disabled={enableEdit}
               label={t('number')}
-              value={number ? number : userDetails.number}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={number}
               onChange={handleChangeNumber}
             />
             <TextField
@@ -146,8 +188,11 @@ const ProfileUser = () => {
               id='telephone'
               type='number'
               disabled={enableEdit}
+              InputLabelProps={{
+                shrink: true,
+              }}
               label={t('telephone')}
-              value={telephone ? telephone : userDetails.telephone}
+              value={telephone}
               onChange={handleChangeTelephone}
             />
             <TextField
@@ -156,11 +201,21 @@ const ProfileUser = () => {
               id='address'
               label={t('address')}
               disabled={enableEdit}
-              value={address ? address : userDetails.address}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={address}
               onChange={handleChangeAddress}
             />
+            {message && <BasicAlerts severity='success' message={message} />}
             <Grid container>
-              <Button type='submit' onClick={handleSubmit} variant='contained' sx={{ mt: 3, mb: 2, height: 45 }}>
+              <Button
+                type='submit'
+                onClick={handleSubmit}
+                variant='contained'
+                sx={{ mt: 3, mb: 2, height: 45 }}
+                disabled={enableEdit}
+              >
                 {t('SubmitChanges')}
               </Button>
             </Grid>

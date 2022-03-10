@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Home from './screens/Home';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
-import { login, logout } from './features/user/userSlice';
+import { login, logout, setUser } from './features/user/userSlice';
 import jwtDecode from 'jwt-decode';
 import ProfileUser from './screens/user/ProfileUser';
 
@@ -16,7 +16,8 @@ function App() {
   useEffect(() => {
     ///modific
     if (!token) return;
-    const { exp } = jwtDecode(token, { complete: true });
+    const { exp, user } = jwtDecode(token, { complete: true });
+    dispatch(setUser(user));
     const dateNow = +new Date();
     exp * 1000 < dateNow ? dispatch(logout()) : dispatch(login(token));
   }, [dispatch, token]);
