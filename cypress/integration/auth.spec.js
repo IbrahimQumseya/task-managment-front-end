@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 describe('auth', () => {
   const password = `${Math.random().toString(20).substr(2, 16)}!D`;
-  const username = `${Math.random().toString(20).substr(2, 16)}`;
+  const username = `${Math.random().toString(20).substr(2, 16)}-test-e2e`;
   console.log(username);
   it('Renders with random credential', () => {
     cy.visit('/register');
@@ -11,9 +11,9 @@ describe('auth', () => {
     cy.get('#firstName').should('be.visible');
     cy.get('#firstName').should('be.enabled');
     cy.get('#firstName').clear();
-    cy.get('#firstName').type(`${Math.random().toString(20).substr(2, 16)}`);
+    cy.get('#firstName').type(`${Math.random().toString(20).substr(2, 16)}-test-e2e`);
     cy.get('#lastName').clear();
-    cy.get('#lastName').type(`${Math.random().toString(20).substr(2, 16)}`);
+    cy.get('#lastName').type(`${Math.random().toString(20).substr(2, 16)}-test-e2e`);
     cy.get('#username').clear();
     cy.get('#username').type(username);
     cy.get('#username').should('have.id', 'username');

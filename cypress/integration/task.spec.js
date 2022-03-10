@@ -51,13 +51,13 @@ describe('Renders the tasks page', () => {
     cy.get(
       ':nth-child(17) > .MuiTableCell-alignRight > .css-1okj3ks-MuiStack-root > .MuiButtonBase-root > [data-testid="DeleteForeverIcon"] > path'
     ).click();
+    cy.get(':nth-child(15) > .MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > :nth-child(2)').click();
     cy.get('.MuiDialogActions-root > :nth-child(2)').should('be.visible');
     cy.get('#alert-dialog-description').should('be.visible');
     cy.get('#alert-dialog-title').should('be.visible');
     cy.get('.MuiDialogActions-root > :nth-child(1)').should('be.enabled');
     cy.get('.MuiDialogActions-root > :nth-child(2)').should('be.enabled');
     cy.get('.MuiDialogActions-root > :nth-child(2)').click();
-
     cy.get('.MuiTableBody-root > :nth-child(17)').should('not.exist');
     cy.wait(1500);
   });
