@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterSlice from '../features/counter/counterSlice';
-import dialogSlice from '../features/dialog/dialogSlice';
+// import dialogSlice from '../features/dialog/dialogSlice';
 import metadataSlice from '../features/taskmetadata/metadataSlice';
 import tasksSlice from '../features/tasks/tasksSlice';
 import userSlice from '../features/user/userSlice';
@@ -9,7 +9,7 @@ export const store = configureStore({
     counter: counterSlice,
     user: userSlice,
     tasks: tasksSlice,
-    dialog: dialogSlice,
+    // dialog: dialogSlice,
     metadata: metadataSlice,
   },
 });
