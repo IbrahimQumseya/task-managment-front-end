@@ -1,7 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from './newAPI';
 
-export const fetchAllData = (allData) => {
+export const loginUser = createAsyncThunk('user/signin', async (credentials) => {
+  try {
+    const res = await axios.post('/auth/signin', credentials);
+    return res.data;
+  } catch (error) {
+    throw Error(error);
+  }
+});
+
+export const fetchAllData = createAsyncThunk('user/signup', async (allData) => {
   axios
     .post('/auth/signup', {
       firstName: allData.firstName,
@@ -17,7 +26,7 @@ export const fetchAllData = (allData) => {
     .catch(function (error) {
       console.log(error);
     });
-};
+});
 export const fetchDeleteTask = createAsyncThunk('tasks/deleteTask', async (id) => {
   try {
     await axios.delete(`/tasks/${id}`);

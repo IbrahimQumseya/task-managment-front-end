@@ -17,9 +17,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/user/userSlice';
-
 import axios from '../api/newAPI';
-import BasicAlerts from '../components/BasicAlerts';
+// import BasicAlerts from '../components/BasicAlerts';
 import { useTranslation } from 'react-i18next';
 
 export default function SignIn() {
@@ -30,6 +29,7 @@ export default function SignIn() {
   const [enabled, setEnabled] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (username && password) {
       setEnabled(false);
@@ -55,7 +55,6 @@ export default function SignIn() {
     e.preventDefault();
 
     if (username && password) {
-      console.log(enabled);
       try {
         // This request should be moved into slice/userAPI
         const res = await axios.post('/auth/signin', {
@@ -113,7 +112,7 @@ export default function SignIn() {
             sx={{ mt: 2 }}
           />
           <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember Me' />
-          {message && <BasicAlerts severity='error' message={message} />}
+          {/* {message && <BasicAlerts severity='error' message={message} />} */}
           <Button type='submit' fullWidth disabled={enabled} variant='contained' sx={{ mt: 3, mb: 2, height: 45 }}>
             {t('SignIn')}
           </Button>

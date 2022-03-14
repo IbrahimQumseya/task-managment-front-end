@@ -23,8 +23,6 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-<<<<<<< HEAD
-=======
 
 import jwtDecode from 'jwt-decode';
 
@@ -62,7 +60,10 @@ Cypress.Commands.add('loginByAuth0Api', (username, password) => {
   });
 });
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
 >>>>>>> main
 =======
 >>>>>>> cypress-end-2-end-home-page
 >>>>>>> f7b22ab2b060675ed6caa23698739396e39606a7
+>>>>>>> main
