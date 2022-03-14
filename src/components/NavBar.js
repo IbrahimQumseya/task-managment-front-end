@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { languages, pages, settings } from '../asserts/data';
@@ -20,6 +19,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { fetchGetUserDetails } from '../api/userAPI';
 function NavBar() {
   //setIsAuthenticated and isAuthenticated
   let navigate = useNavigate();
@@ -48,11 +48,16 @@ function NavBar() {
     }
     setAnchorElNav(null);
   };
-  const handleCloseUserMenu = (name) => {
-    if (name === "Logout" && token) {
+  const handleCloseUserMenu = (e, name) => {
+    if (e === 'Logout' && token) {
       dispatch(logout());
       sessionStorage.clear();
       navigate("/login");
+    }
+    console.log(e);
+    if (e === 'Profile') {
+      dispatch(fetchGetUserDetails());
+      navigate('/user/profile');
     }
     setAnchorElUser(null);
   };
