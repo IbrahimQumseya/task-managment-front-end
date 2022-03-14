@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { languages, pages, settings } from '../asserts/data';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../features/user/userSlice';
+import { logout, setUserProfileImage } from '../features/user/userSlice';
 import { useTranslation } from 'react-i18next';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
@@ -19,15 +19,21 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { fetchGetUserDetails } from '../api/userAPI';
+import { fetchGetUserDetails, getUserProfileImage } from '../api/userAPI';
 function NavBar() {
   //setIsAuthenticated and isAuthenticated
   let navigate = useNavigate();
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+  const profileImage = useSelector((state) => state.user.profileImage);
+  const doesUserHasImage = useSelector((state) => state.user.user.profileImage);
+
   const dispatch = useDispatch();
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [languageMenu, setLanguageMenu] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [image, setImage] = useState(null);
+
   const token = sessionStorage.getItem('user');
   const { t, i18n } = useTranslation();
 
@@ -69,6 +75,15 @@ function NavBar() {
     }
     setAnchorElUser(null);
   };
+  useEffect(() => {
+    if (doesUserHasImage) {
+      dispatch(getUserProfileImage());
+    }
+  }, [doesUserHasImage, dispatch]);
+
+  useEffect(() => {
+    setImage(profileImage || null);
+  }, [profileImage]);
   return (
     <AppBar position='static'>
       <Container maxWidth='xl'>
@@ -191,7 +206,7 @@ function NavBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                  <Avatar alt={image} src={image} />
                 </IconButton>
               </Tooltip>
 

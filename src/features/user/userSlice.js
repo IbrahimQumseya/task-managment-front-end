@@ -1,11 +1,29 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createUserDetails, fetchGetUserDetails, updateUserDetails } from '../../api/userAPI';
+import { combineReducers, createSlice } from '@reduxjs/toolkit';
+import {
+  createUserDetails,
+  fetchGetUserDetails,
+  getUserProfileImage,
+  updateUserDetails,
+  updateUserProfile,
+} from '../../api/userAPI';
 
 const initialState = {
-  users: [],
-  userDetails: {},
-  username: '',
-  email: '',
+  user: {
+    id: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    role: '',
+    profileImage: '',
+  },
+  userDetails: {
+    id: '',
+    location: '',
+    address: '',
+    number: '',
+    telephone: '',
+  },
+  profileImage: '',
   isFulfilled: false,
   isPending: false,
   isRejected: false,
@@ -13,6 +31,17 @@ const initialState = {
   isAuthenticated: false,
   isExpiredToken: false,
 };
+const rootReducer = (state, action) => {
+  if (action.type === 'user/logout') {
+    console.log('sasdsad');
+    return appReducer(initialState, action);
+  }
+  return appReducer(state, action);
+};
+const appReducer = combineReducers({
+  /* your app’s top-level reducers */
+  rootReducer,
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -25,16 +54,21 @@ export const userSlice = createSlice({
     logout: (state, _action) => {
       state.isAuthenticated = false;
       sessionStorage.removeItem('user');
+      console.log(_action.type);
+      state = initialState;
     },
     setIsAuth: (state, action) => {
       state.isAuthenticated = action.payload;
     },
     setUser: (state, action) => {
-      state.users = action.payload;
+      state.user = action.payload;
     },
     setUserFirstnameLastname: (state, action) => {
       const { firstName, lastName } = action.payload;
-      state.users = { ...state.users, firstName, lastName };
+      state.user = { ...state.user, firstName, lastName };
+    },
+    setUserProfileImage: (state, action) => {
+      state.profileImage = action.payload;
     },
   },
   extraReducers(builder) {
@@ -43,7 +77,9 @@ export const userSlice = createSlice({
         state.isPending = true;
       })
       .addCase(fetchGetUserDetails.fulfilled, (state, action) => {
-        state.userDetails = action.payload;
+        if (action.payload) {
+          state.userDetails = action.payload;
+        }
         state.isFulfilled = true;
         state.isPending = false;
       })
@@ -52,6 +88,7 @@ export const userSlice = createSlice({
         state.isFulfilled = false;
         state.isPending = false;
       })
+
       .addCase(updateUserDetails.pending, (state, _action) => {
         state.isPending = true;
       })
@@ -65,6 +102,7 @@ export const userSlice = createSlice({
         state.isFulfilled = false;
         state.isPending = false;
       })
+
       .addCase(createUserDetails.pending, (state, _action) => {
         state.isPending = true;
       })
@@ -77,11 +115,39 @@ export const userSlice = createSlice({
         state.isRejected = true;
         state.isFulfilled = false;
         state.isPending = false;
+      })
+
+      .addCase(getUserProfileImage.pending, (state, _action) => {
+        state.isPending = true;
+      })
+      .addCase(getUserProfileImage.fulfilled, (state, action) => {
+        state.profileImage = action.payload;
+        state.isFulfilled = true;
+        state.isPending = false;
+      })
+      .addCase(getUserProfileImage.rejected, (state, _action) => {
+        state.isRejected = true;
+        state.isFulfilled = false;
+        state.isPending = false;
+      })
+
+      .addCase(updateUserProfile.pending, (state, _action) => {
+        state.isPending = true;
+      })
+      .addCase(updateUserProfile.fulfilled, (state, action) => {
+        // state.profileImage = action.payload;
+        state.isFulfilled = true;
+        state.isPending = false;
+      })
+      .addCase(updateUserProfile.rejected, (state, _action) => {
+        state.isRejected = true;
+        state.isFulfilled = false;
+        state.isPending = false;
       });
   },
 });
 
-export const { login, logout, setUser, setUserFirstnameLastname } = userSlice.actions;
+export const { login, logout, setUser, setUserFirstnameLastname, setUserProfileImage } = userSlice.actions;
 export const selectUserDetails = (state) => state.user.userDetails;
-export const selectUser = (state) => state.user.users;
+export const selectUser = (state) => state.user.user;
 export default userSlice.reducer;

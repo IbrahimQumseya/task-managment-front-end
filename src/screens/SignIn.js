@@ -55,7 +55,6 @@ export default function SignIn() {
     e.preventDefault();
 
     if (username && password) {
-      console.log(enabled);
       try {
         // This request should be moved into slice/userAPI
         const res = await axios.post('/auth/signin', {
