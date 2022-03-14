@@ -10,12 +10,15 @@ import {
 } from '@mui/material';
 import React from 'react';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import DialogComponent from '../dialog/DialogComponent';
+// import { openDialog } from '../dialog/dialogSlice';
 import { fetchDeleteTask } from '../../api/taskAPI';
 
-const DeleteTask = ({ id, title, description }) => {
+const DeleteTask = ({ id }) => {
+  // const _isOpen = useSelector((state) => state.dialog.isOpen);
   const [open, setOpen] = React.useState(false);
-
+  const task = useSelector((state) => state.tasks.tasks.find((task) => task.id === id));
   const dispatch = useDispatch();
   const handleDelete = (e) => {
     setOpen(!open);
@@ -30,11 +33,10 @@ const DeleteTask = ({ id, title, description }) => {
         aria-label='deleteTask'
         style={{
           width: 40,
-          alignContent:'center',
-          alignSelf:'center',
-          marginTop:13,
-          marginRight:10
-
+          alignContent: 'center',
+          alignSelf: 'center',
+          marginTop: 13,
+          marginRight: 10,
         }}
         onClick={() => setOpen(true)}
       >
@@ -46,9 +48,9 @@ const DeleteTask = ({ id, title, description }) => {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{task.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>{description}</DialogContentText>
+          <DialogContentText id='alert-dialog-description'>{task.description}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>No</Button>
