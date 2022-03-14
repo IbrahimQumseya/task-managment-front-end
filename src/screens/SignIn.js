@@ -17,10 +17,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../features/user/userSlice';
-
 import axios from '../api/newAPI';
 import BasicAlerts from '../components/BasicAlerts';
 import { useTranslation } from 'react-i18next';
+import { loginUser } from '../api/taskAPI';
 
 export default function SignIn() {
   const { t } = useTranslation();
@@ -30,6 +30,7 @@ export default function SignIn() {
   const [enabled, setEnabled] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (username && password) {
       setEnabled(false);
@@ -55,7 +56,6 @@ export default function SignIn() {
     e.preventDefault();
 
     if (username && password) {
-      console.log(enabled);
       try {
         // This request should be moved into slice/userAPI
         const res = await axios.post('/auth/signin', {
