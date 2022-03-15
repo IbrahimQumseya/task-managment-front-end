@@ -1,11 +1,13 @@
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
+import { useTranslation } from 'react-i18next';
 import SignIn from './SignIn';
 
 let container = null;
 beforeEach(() => {
   // setup a DOM element as a render target
+  const { t } = useTranslation();
   container = document.createElement('div');
   document.body.appendChild(container);
 });
