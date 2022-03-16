@@ -5,11 +5,12 @@ import { setupServer } from 'msw/node';
 // Our custom utils also re-export everything from RTL
 // so we can import fireEvent and screen here as well
 import i18n from '../asserts/languages';
-import { render, fireEvent, screen } from '../redux/test-userSlice-utils';
+import { render, fireEvent } from '../redux/test-userSlice-utils';
 import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';
-import SignIn from './SignIn';
 import '@testing-library/jest-dom';
+import { Home } from '@material-ui/icons';
+import { screen } from '@testing-library/react';
 // We use msw to intercept the network request during the test,
 // and return the response 'John Smith' after 150ms
 // when receiving a get request to the `/api/user` endpoint
@@ -42,14 +43,8 @@ afterEach(() => {
 
 // // Disable API mocking after the tests are done.
 // afterAll(() => server.close());
-describe('sign in', () => {
-  test('button to be Disabled without', async () => {
-    render(<SignIn />);
-    expect(await screen.findByRole('button', { name: /Sign In/i })).toBeDisabled();
-    userEvent.type(screen.getByPlaceholderText(/username/i), 'firstname');
-    userEvent.type(screen.getByPlaceholderText(/password/i), 'SDOWSL@!21as');
-
-    expect(await screen.findByRole('button', { name: /Sign In/i })).toBeEnabled();
-
+describe('Home', () => {
+  test('hOME pAGE', async () => {
+    render(<Home />);
   });
 });
