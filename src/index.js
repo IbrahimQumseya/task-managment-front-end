@@ -1,12 +1,12 @@
-import { ThemeProvider } from "@emotion/react";
-import { createTheme } from "@mui/material";
+import { ThemeProvider } from '@emotion/react';
+import { createTheme } from '@mui/material';
 
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
-import App from "./App";
-import { store } from "./redux/store";
+import App from './App';
+import { store } from './redux/store';
 
 const theme = createTheme();
 
@@ -18,7 +18,7 @@ ReactDOM.render(
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root') || document.createElement('div')
 );
 
 // If you want to start measuring performance in your app, pass a function
