@@ -79,8 +79,8 @@ const ProfileUser = () => {
       if (
         userDetails.location &&
         userDetails.address &&
-        userDetails.number &&
-        userDetails.telephone &&
+        (userDetails.telephone || userDetails.telephone === 0) &&
+        (userDetails.number || userDetails.number === 0) &&
         user.firstName &&
         user.lastName
       ) {
@@ -90,7 +90,7 @@ const ProfileUser = () => {
           location,
           address,
           number: String(number),
-          telephone: String(number),
+          telephone: String(telephone),
         };
         dispatch(updateUserDetails(bodyParameters));
         setEnableEdit(!enableEdit);
@@ -98,10 +98,10 @@ const ProfileUser = () => {
         dispatch(setUserFirstnameLastname({ firstName, lastName }));
       }
       if (
-        userDetails.location === '' &&
-        userDetails.address === '' &&
-        userDetails.number === '' &&
-        userDetails.telephone === ''
+        !userDetails.location &&
+        !userDetails.address &&
+        (!userDetails.number || !userDetails.number === 0) &&
+        (!userDetails.telephone || !userDetails.telephone === 0)
       ) {
         const bodyParameters = {
           idUser,
