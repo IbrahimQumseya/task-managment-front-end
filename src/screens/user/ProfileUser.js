@@ -40,7 +40,7 @@ const ProfileUser = () => {
   const [idUser, setIdUser] = useState('');
 
   const [message, setMessage] = useState('');
-  const [image, setImage] = useState(selectUserProfileImage);
+  const [image, setImage] = useState(null);
   const [enableEdit, setEnableEdit] = useState(true);
 
   useEffect(() => {
@@ -51,6 +51,12 @@ const ProfileUser = () => {
   }, [dispatch, doesUserHaveProfilePicture]);
 
   useEffect(() => {
+    if (!selectUserProfileImage.match('blob:')) {
+      dispatch(getUserProfileImage());
+    }
+  }, [dispatch, selectUserProfileImage]);
+  
+  useEffect(() => {
     setImage(selectUserProfileImage || null);
     setLocation(userDetails.location || '');
     setNumber(userDetails.number || '');
@@ -59,6 +65,7 @@ const ProfileUser = () => {
     setLastName(user.lastName);
     setFirstName(user.firstName);
     setIdUser(user.id);
+
     if (message) {
       setTimeout(() => {
         setMessage('');
@@ -110,15 +117,16 @@ const ProfileUser = () => {
   };
 
   const handleChangeImage = (e) => {
-    const formData = new FormData();
-    console.log(e?.target?.files[0]);
-    // const newImage = e?.target?.files[0];
-    const newImage = URL.createObjectURL(e?.target?.files[0]);
-    if (newImage) {
-      formData.append('file', newImage);
+    let formData = new FormData();
+    let file = e.target.files[0];
+    if (file) {
+      formData.append('file', file);
       dispatch(updateUserProfile(formData));
     }
-    console.log(formData);
+    if (!image.match('blob:')) {
+      console.log('match');
+      dispatch(getUserProfileImage());
+    }
   };
 
   const handleChangeFirstName = (e) => {
