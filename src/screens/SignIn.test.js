@@ -48,7 +48,7 @@ test('button to be Disabled without', async () => {
   userEvent.type(screen.getByPlaceholderText(/username/i), 'firstname');
   userEvent.type(screen.getByPlaceholderText(/password/i), 'SDOWSL@!21as');
 
-  expect(await screen.findByRole('button', { name: /Sign In/i })).toBeClickable();
+  expect(await screen.findByRole('button', { name: /Sign In/i })).toBeEnabled();
 
   // should show no user initially, and not be fetching a user
   // expect(screen.getByText(/no user/i)).toBeInTheDocument();
