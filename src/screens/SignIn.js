@@ -27,7 +27,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [enabled, setEnabled] = useState(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function SignIn() {
         const token = res?.data?.accessToken;
         if (token) {
           dispatch(login(token));
-          navigate('/home');
+          // navigate('/home');
         }
       } catch (error) {
         setMessage(error.response.data.message);
@@ -92,6 +92,7 @@ export default function SignIn() {
           <TextField
             margin='normal'
             required
+            placeholder='Username'
             fullWidth
             id='username'
             label={t('userName')}
@@ -106,6 +107,7 @@ export default function SignIn() {
             id='password'
             type='password'
             label={t('Password')}
+            placeholder='password'
             value={password}
             onChange={handleChangePassword}
             autoComplete='current-password'
