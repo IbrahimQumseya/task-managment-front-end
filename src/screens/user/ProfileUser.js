@@ -50,11 +50,11 @@ const ProfileUser = () => {
     }
   }, [dispatch, doesUserHaveProfilePicture]);
 
-  useEffect(() => {
-    if (!selectUserProfileImage.match('blob:')) {
-      dispatch(getUserProfileImage());
-    }
-  }, [dispatch, selectUserProfileImage]);
+  // useEffect(() => {
+  //   if (!selectUserProfileImage.match('blob:')) {
+  //     dispatch(getUserProfileImage());
+  //   }
+  // }, [dispatch, selectUserProfileImage]);
 
   useEffect(() => {
     setImage(selectUserProfileImage || null);
