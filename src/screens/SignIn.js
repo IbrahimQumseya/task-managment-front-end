@@ -115,7 +115,7 @@ export default function SignIn() {
           />
           <FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember Me' />
           {/* {message && <BasicAlerts severity='error' message={message} />} */}
-          <Button type='submit' fullWidth disabled={enabled} variant='contained' sx={{ mt: 3, mb: 2, height: 45 }}>
+          <Button type='submit' fullWidth disabled={enabled} variant='contained' sx={{ mt: 3, mb: 2, height: 45 }} data-testid='signinButton'>
             {t('SignIn')}
           </Button>
           <Grid container>
