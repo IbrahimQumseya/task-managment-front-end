@@ -54,7 +54,6 @@ export const userSlice = createSlice({
     logout: (state, _action) => {
       state.isAuthenticated = false;
       sessionStorage.removeItem('user');
-      console.log(_action.type);
       state = initialState;
     },
     setIsAuth: (state, action) => {
@@ -135,7 +134,7 @@ export const userSlice = createSlice({
         state.isPending = true;
       })
       .addCase(updateUserProfile.fulfilled, (state, action) => {
-        // state.profileImage = action.payload;
+        state.profileImage = action.payload.profileImage;
         state.isFulfilled = true;
         state.isPending = false;
       })
