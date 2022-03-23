@@ -30,7 +30,6 @@ function NavBar() {
   const dispatch = useDispatch();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [languageMenu, setLanguageMenu] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [image, setImage] = useState(null);
 
@@ -42,16 +41,6 @@ function NavBar() {
   };
   const handleOpenUserMenu = (e) => {
     setAnchorElUser(e.currentTarget);
-  };
-  const handleOpenLanguageMenu = (e) => {
-    setLanguageMenu(e.currentTarget);
-  };
-  const handleCloseLanguageMenu = (language, e) => {
-    if (language === 'en' || language === 'ro') {
-      i18n.changeLanguage(language);
-      setLanguageMenu(null);
-    }
-    setLanguageMenu(null);
   };
 
   const handleCloseNavMenu = (page, e) => {
@@ -66,7 +55,6 @@ function NavBar() {
       dispatch(logout());
       sessionStorage.clear();
       navigate('/login');
-      setAnchorElUser(null);
     }
     console.log(e);
     if (e === 'Profile') {
@@ -89,7 +77,7 @@ function NavBar() {
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography variant='h6' noWrap component='div' sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}>
-            {t('Logo')}
+            LOGO
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -126,14 +114,14 @@ function NavBar() {
                 if (page.id > 2 && isAuthenticated) {
                   return (
                     <MenuItem key={page.id} onClick={() => handleCloseNavMenu(page)}>
-                      <Typography textAlign='center'>{t(page.name)}</Typography>
+                      <Typography textAlign='center'>{page.name}</Typography>
                     </MenuItem>
                   );
                 }
                 if (!isAuthenticated && page.id < 3) {
                   return (
                     <MenuItem key={page.id} onClick={() => handleCloseNavMenu(page)}>
-                      <Typography textAlign='center'>{t(page.name)}</Typography>
+                      <Typography textAlign='center'>{page.name}</Typography>
                     </MenuItem>
                   );
                 }
@@ -154,7 +142,7 @@ function NavBar() {
                       onClick={() => handleCloseNavMenu(page)}
                       sx={{ my: 2, color: 'white', display: 'block' }}
                     >
-                      {t(page.name)}
+                      {page.name}
                     </Button>
                   );
                 }
@@ -165,41 +153,23 @@ function NavBar() {
                       onClick={() => handleCloseNavMenu(page)}
                       sx={{ my: 2, color: 'white', display: 'block' }}
                     >
-                      {t(page.name)}
+                      {page.name}
                     </Button>
                   );
                 }
+                // else {
+                //   return (
+                //     <Button
+                //       key={page.id}
+                //       onClick={() => handleCloseNavMenu(page)}
+                //       sx={{ my: 2, color: "white", display: "block" }}
+                //     >
+                //       {page.name}
+                //     </Button>
+                //   );
+                // }
               })
             }
-          </Box>
-          <Box sx={{ flexGrow: 0, width: 50 }}>
-            <Tooltip title='Open Language'>
-              <IconButton onClick={handleOpenLanguageMenu} sx={{ p: 0 }}>
-                <LanguageIcon style={{ color: 'white', fontSize: 40 }} />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '50px' }}
-              id='menu-appbar'
-              anchorEl={languageMenu}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(languageMenu)}
-              onClose={handleCloseLanguageMenu}
-            >
-              {languages.map((language) => (
-                <MenuItem key={language.id} onClick={() => handleCloseLanguageMenu(language.lang)}>
-                  <Typography textAlign='center'>{t(language.name)}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
           </Box>
 
           {isAuthenticated && (
@@ -228,7 +198,7 @@ function NavBar() {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting.id} onClick={() => handleCloseUserMenu(setting.name)}>
-                    <Typography textAlign='center'>{t(setting.name)}</Typography>
+                    <Typography textAlign='center'>{setting.name}</Typography>
                   </MenuItem>
                 ))}
               </Menu>

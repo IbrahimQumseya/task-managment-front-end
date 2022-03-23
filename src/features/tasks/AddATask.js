@@ -1,9 +1,11 @@
-import { Button, TextField, Typography } from '@mui/material';
+import { Avatar, Button, Container, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchCreateTask } from '../../api/taskAPI';
+import { addTaskStatePost, selectTasks } from './tasksSlice';
 import { useTranslation } from 'react-i18next';
+
 function AddATask() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -26,6 +28,7 @@ function AddATask() {
     };
 
     if (allData.title && allData.description) {
+      // const token = sessionStorage.getItem("user");
       dispatch(fetchCreateTask(allData));
       setDescription('');
       setTitle('');
@@ -43,7 +46,7 @@ function AddATask() {
       {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
       </Avatar> */}
       <Typography component='h1' variant='h5'>
-        {t('CreateTask')}
+        Create A task
       </Typography>
       <Box sx={{ m1: 3 }} component='form' noValidate onSubmit={handleSubmit}>
         <TextField
@@ -70,7 +73,7 @@ function AddATask() {
           onChange={handleDescriptionChange}
         />
         <Button type='submit' variant='contained' sx={{ mt: 3 }}>
-          {t('AddTask')}
+          Add a task
         </Button>
       </Box>
     </Box>
