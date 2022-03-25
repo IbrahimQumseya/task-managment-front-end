@@ -71,7 +71,7 @@ function AddATask() {
           autoComplete='description'
           onChange={handleDescriptionChange}
         />
-        <Button type='submit' variant='contained' sx={{ mt: 3 }}>
+        <Button type='submit' variant='contained' sx={{ mt: 3 }} disabled={title && description ? false : true} data-testid="addTaskButton">
           Add a task
         </Button>
       </Box>

@@ -5,12 +5,14 @@ import { setupServer } from 'msw/node';
 // Our custom utils also re-export everything from RTL
 // so we can import fireEvent and screen here as well
 // import i18n from '../../asserts/languages';
+import { store } from '../../redux/store';
 import { render, fireEvent } from '../../redux/test-userSlice-utils';
 import userEvent from '@testing-library/user-event';
 import { I18nextProvider } from 'react-i18next';
 import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
-import AddATask from './AddATask';
+import DeleteTask from './DeleteTask';
+import { Provider } from 'react-redux';
 // We use msw to intercept the network request during the test,
 // and return the response 'John Smith' after 150ms
 // when receiving a get request to the `/api/user` endpoint
@@ -45,16 +47,17 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key) => key }),
 }));
 
-// // Disable API mocking after the tests are done.
-// afterAll(() => server.close());
-describe('AddATask', () => {
-  test('AddTask Buttom Enable', async () => {
-    render(<AddATask />);
-    const addTaskButton = screen.getByTestId('addTaskButton');
-    expect(addTaskButton).toBeDisabled();
-    userEvent.type(screen.getByRole('textbox', { name: /Title/i }), 'Title1');
-    userEvent.type(screen.getByRole('textbox', { name: /Description/i }), 'Description1');
-    expect(addTaskButton).toBeEnabled();
+// Disable API mocking after the tests are done.
+afterAll(() => server.close());
+describe('DeleteTask', () => {
+  test('DeleteTask Buttom Enable', async () => {
+    let state = store.getState().tasks;
+    // render(
+    //   <Provider store={store}>
+    //     <DeleteTask id={'77b5f618-1a13-4be8-beef-46f6315de47c'} />
+    //   </Provider>
+    // );
+
     // userEvent.click(screen.getByRole('button', { name: /Add a task/i }));
     // screen.getByRole('');
   });

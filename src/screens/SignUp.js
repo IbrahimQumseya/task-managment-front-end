@@ -12,7 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router-dom';
@@ -57,6 +57,7 @@ const validationSchema = yup.object({
 function SignUp() {
   const history = useNavigate();
   const { t } = useTranslation();
+  const [buttonEnable, setButtonEnable] = useState(true);
 
   const handleSubmit = (values) => {
     const { email, lastName, firstName, password, passwordConform, username } = values;
@@ -88,14 +89,44 @@ function SignUp() {
       username: '',
       acceptTerms: false,
     },
+    initialErrors: {
+      email: 'Enter your email',
+      password: 'Enter your password',
+      passwordConform: 'Both password need to be the same',
+      firstName: 'Enter your first name',
+      lastName: 'Enter your Last name',
+      username: 'Enter your username name',
+      acceptTerms: 'The terms and conditions must be accepted.',
+    },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       handleSubmit(values);
     },
   });
+  useEffect(() => {
+    setButtonEnable(
+      !formik.errors.acceptTerms &&
+        !formik.errors.acceptTerms &&
+        !formik.errors.email &&
+        !formik.errors.firstName &&
+        !formik.errors.lastName &&
+        !formik.errors.password &&
+        !formik.errors.passwordConform &&
+        !formik.errors.username
+        ? false
+        : true
+    );
+  }, [
+    formik.errors.acceptTerms,
+    formik.errors.email,
+    formik.errors.firstName,
+    formik.errors.lastName,
+    formik.errors.password,
+    formik.errors.passwordConform,
+    formik.errors.username,
+  ]);
   return (
     <Container component='main' maxWidth='xs'>
-      <CssBaseline />
       <Box
         sx={{
           marginTop: 8,
@@ -113,15 +144,16 @@ function SignUp() {
         <Box sx={{ m1: 3 }} component='form' noValidate onSubmit={formik.handleSubmit}>
           <TextField
             margin='normal'
-            required
+            required={true}
             fullWidth
+            inputProps={{ 'data-testid': 'required-firstName' }}
             id='firstName'
             label='First Name'
             name='firstName'
             value={formik.values.firstName}
             onChange={formik.handleChange}
-            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-            helperText={formik.touched.firstName && formik.errors.firstName}
+            error={formik.errors.firstName && Boolean(formik.errors.firstName)}
+            helperText={formik.errors.firstName}
             autoComplete='firstName'
             autoFocus
           />
@@ -129,27 +161,29 @@ function SignUp() {
             margin='normal'
             required
             fullWidth
+            inputProps={{ 'data-testid': 'required-lastName' }}
             id='lastName'
             label='Last Name'
             name='lastName'
             autoComplete='lastName'
             value={formik.values.lastName}
             onChange={formik.handleChange}
-            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-            helperText={formik.touched.lastName && formik.errors.lastName}
+            error={formik.errors.lastName && Boolean(formik.errors.lastName)}
+            helperText={formik.errors.lastName}
           />
           <TextField
             margin='normal'
             required
             fullWidth
             id='username'
+            inputProps={{ 'data-testid': 'required-username' }}
             label='User Name'
             name='username'
             autoComplete='username'
             value={formik.values.username}
             onChange={formik.handleChange}
-            error={formik.touched.username && Boolean(formik.errors.username)}
-            helperText={formik.touched.username && formik.errors.username}
+            error={formik.errors.username && Boolean(formik.errors.username)}
+            helperText={formik.errors.username}
           />
           <TextField
             margin='normal'
@@ -158,12 +192,13 @@ function SignUp() {
             id='email'
             type='email'
             label='Email Address'
+            inputProps={{ 'data-testid': 'required-email' }}
             name='email'
             autoComplete='email'
             value={formik.values.email}
             onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
+            error={formik.errors.email && Boolean(formik.errors.email)}
+            helperText={formik.errors.email}
           />
           <TextField
             margin='normal'
@@ -171,13 +206,14 @@ function SignUp() {
             fullWidth
             id='Password'
             type='password'
+            inputProps={{ 'data-testid': 'required-password' }}
             label='Password'
             name='password'
             autoComplete='Password'
             value={formik.values.password}
             onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
+            error={formik.errors.password && Boolean(formik.errors.password)}
+            helperText={formik.errors.password}
           />
           <TextField
             margin='normal'
@@ -185,15 +221,16 @@ function SignUp() {
             fullWidth
             id='passwordConform'
             type='password'
+            inputProps={{ 'data-testid': 'required-passwordConform' }}
             label='Conform Password'
             name='passwordConform'
             autoComplete='passwordConform'
             value={formik.values.passwordConform}
             onChange={formik.handleChange}
-            error={formik.touched.passwordConform && Boolean(formik.errors.passwordConform)}
-            helperText={formik.touched.passwordConform && formik.errors.passwordConform}
+            error={formik.errors.passwordConform && Boolean(formik.errors.passwordConform)}
+            helperText={formik.errors.passwordConform}
           />
-          <FormControlLabel label='i accept the terms' control={<Checkbox value='terms' color='primary' />} />
+          {/* <FormControlLabel label='i accept the terms' control={<Checkbox value='terms' color='primary' />} /> */}
           {/* <Form>
             <Field
               type='acceptTerms'
@@ -206,6 +243,7 @@ function SignUp() {
             label={t('AcceptTerms')}
             control={
               <Checkbox
+                inputProps={{ 'data-testid': 'required-acceptTerms' }}
                 value={formik.values.acceptTerms}
                 color='primary'
                 checked={formik.values.acceptTerms}
@@ -215,11 +253,18 @@ function SignUp() {
               />
             }
           />
-          {formik.touched.acceptTerms && formik.errors.acceptTerms && (
+          {formik.errors.acceptTerms && formik.errors.acceptTerms && (
             <div style={{ color: 'red' }}>{formik.errors.acceptTerms}</div>
           )}
 
-          <Button type='submit' fullWidth variant='contained' sx={{ mt: 3 }}>
+          <Button
+            data-testid='signUpButton'
+            type='submit'
+            fullWidth
+            variant='contained'
+            sx={{ mt: 3 }}
+            disabled={buttonEnable}
+          >
             Sign Up
           </Button>
           <Grid container justifyContent='flex-end'>
