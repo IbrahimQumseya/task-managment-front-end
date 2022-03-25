@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import { I18nextProvider } from 'react-i18next';
-import i18n from './i18n';
+import i18n from './asserts/languages/index';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
