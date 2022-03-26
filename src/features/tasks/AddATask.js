@@ -1,9 +1,8 @@
-import { Avatar, Button, Container, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchCreateTask } from '../../api/taskAPI';
-import { addTaskStatePost, selectTasks } from './tasksSlice';
 import { useTranslation } from 'react-i18next';
 
 function AddATask() {
@@ -72,7 +71,7 @@ function AddATask() {
           autoComplete='description'
           onChange={handleDescriptionChange}
         />
-        <Button type='submit' variant='contained' sx={{ mt: 3 }}>
+        <Button type='submit' variant='contained' sx={{ mt: 3 }} disabled={title && description ? false : true} data-testid="addTaskButton">
           Add a task
         </Button>
       </Box>
