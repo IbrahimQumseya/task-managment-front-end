@@ -8,6 +8,7 @@ import SignUp from './screens/SignUp';
 import { login, logout, setUser } from './features/user/userSlice';
 import jwtDecode from 'jwt-decode';
 import ProfileUser from './screens/user/ProfileUser';
+import BrainTreePaymentTest from './components/payments/brain-tree/BrainTreePaymentTest';
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Home />} />
         <Route path='/home' element={<Home />} />
+        <Route path='/payment/brain-tree' element={<BrainTreePaymentTest />} />
         <Route path='/login' element={<SignIn />} />
         <Route path='/register' element={<SignUp />} />
         <Route path='/user/profile' element={<ProfileUser />} />

@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux';
 import { selectTasks } from '../features/tasks/tasksSlice';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import PaymentFrom from '../components/payments/PaymentFrom'
+import PaymentFrom from '../components/payments/PaymentFrom';
+import BrainTreePaymentTest from '../components/payments/brain-tree/BrainTreePaymentTest';
 
 function Home() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
