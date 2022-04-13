@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
 
+import './asserts/languages/index'
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
