@@ -8,6 +8,8 @@ import SignUp from './screens/SignUp';
 import { login, logout, setUser } from './features/user/userSlice';
 import jwtDecode from 'jwt-decode';
 import ProfileUser from './screens/user/ProfileUser';
+import RequireAuth from './components/RequireAuth';
+import AlreadySignIn from './components/AlreadySignIn';
 
 function App() {
   const dispatch = useDispatch();
@@ -28,10 +30,39 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route path='/home' element={<Home />} />
-        <Route path='/login' element={<SignIn />} />
-        <Route path='/register' element={<SignUp />} />
+        <Route
+          exact
+          path='/'
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/home'
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path='/login'
+          element={
+            <AlreadySignIn>
+              <SignIn />
+            </AlreadySignIn>
+          }
+        />
+        <Route
+          path='/register'
+          element={
+            <AlreadySignIn>
+              <SignUp />
+            </AlreadySignIn>
+          }
+        />
         <Route path='/user/profile' element={<ProfileUser />} />
       </Routes>
     </BrowserRouter>
