@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
-import FacebookLogin from 'react-facebook-login';
+// import FacebookLogin from 'react-facebook-login';
 import { useDispatch } from 'react-redux';
 import { sentFacebookAuth } from '../api/authAPI';
 import { login } from '../features/user/userSlice';
