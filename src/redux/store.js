@@ -4,6 +4,8 @@ import counterSlice from '../features/counter/counterSlice';
 import metadataSlice from '../features/taskmetadata/metadataSlice';
 import tasksSlice from '../features/tasks/tasksSlice';
 import userSlice from '../features/user/userSlice';
+import { getDemoPreloadedState } from '../demo/bootstrapDemo';
+
 export const store = configureStore({
   reducer: {
     counter: counterSlice,
@@ -12,4 +14,5 @@ export const store = configureStore({
     // dialog: dialogSlice,
     metadata: metadataSlice,
   },
+  preloadedState: getDemoPreloadedState(),
 });

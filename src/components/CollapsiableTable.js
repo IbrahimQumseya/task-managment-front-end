@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchGetAllTasks } from '../api/taskAPI';
 import { selectTasks } from '../features/tasks/tasksSlice';
 import DeleteTask from '../features/tasks/DeleteTask';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Chip } from '@mui/material';
 import CircularIndeterminate from './Spinner';
 import Spinner from './Spinner';
 import { useTranslation } from 'react-i18next';
@@ -49,7 +49,14 @@ function RowComponent(props) {
           {row.title}
         </TableCell>
         <TableCell align='center'>{row.description}</TableCell>
-        <TableCell align='center'>{row.status}</TableCell>
+        <TableCell align='center'>
+          <Chip
+            size='small'
+            label={row.status}
+            color={row.status === 'DONE' ? 'success' : row.status === 'IN_PROGRESS' ? 'info' : 'default'}
+            variant='outlined'
+          />
+        </TableCell>
         <DeleteTask id={row.id} title='Deleting Task' description='Are you sure you want to delete this task?' />
       </TableRow>
       {/* {metadata && ( */}
@@ -107,7 +114,7 @@ function CollapsibleTable() {
   }, [dispatch, userIsAuthenticated, token]);
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ borderRadius: 3, overflow: 'hidden' }}>
       {tasks.isPending ? (
         <Spinner />
       ) : (
@@ -115,9 +122,9 @@ function CollapsibleTable() {
           <TableHead>
             <TableRow>
               <TableCell />
-              <TableCell>title</TableCell>
-              <TableCell align='center'>description</TableCell>
-              <TableCell>status</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell align='center'>Description</TableCell>
+              <TableCell align='center'>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

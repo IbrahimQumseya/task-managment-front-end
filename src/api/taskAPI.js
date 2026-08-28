@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from './newAPI';
+import { demoTasks, isDemoMode } from '../demo/bootstrapDemo';
 
 export const loginUser = createAsyncThunk('user/signin', async (credentials) => {
   try {
@@ -36,6 +37,10 @@ export const fetchDeleteTask = createAsyncThunk('tasks/deleteTask', async (id) =
 });
 
 export const fetchGetAllTasks = createAsyncThunk('tasks/getTasks', async (_thunkAPI) => {
+  if (isDemoMode) {
+    return demoTasks;
+  }
+
   try {
     const response = await axios.get(`/tasks`);
     return response.data;

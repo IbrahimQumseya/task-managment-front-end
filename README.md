@@ -75,6 +75,13 @@ Configure the API base URL in `src/api/newAPI.js` (or via environment variables 
 
 **[task-management-web-socket](https://github.com/IbrahimQumseya/task-management-web-socket)** — NestJS + Socket.io real-time gateway with a static Vue demo. Separate project from the same portfolio era; this React app uses REST, not WebSockets.
 
+## Screenshots / Demo
+
+| Screen | Preview |
+| --- | --- |
+| Sign in | ![Sign in](docs/screenshots/sign-in.png) |
+| Task table (home) | ![Task table](docs/screenshots/task-table.png) |
+
 ## License
 
-Private portfolio / learning project.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.

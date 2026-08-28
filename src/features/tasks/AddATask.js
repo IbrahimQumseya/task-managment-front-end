@@ -1,9 +1,8 @@
-import { Avatar, Button, Container, TextField, Typography } from '@mui/material';
+import { Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { fetchCreateTask } from '../../api/taskAPI';
-import { addTaskStatePost, selectTasks } from './tasksSlice';
 import { useTranslation } from 'react-i18next';
 
 function AddATask() {
@@ -28,55 +27,55 @@ function AddATask() {
     };
 
     if (allData.title && allData.description) {
-      // const token = sessionStorage.getItem("user");
       dispatch(fetchCreateTask(allData));
       setDescription('');
       setTitle('');
     }
   };
+
   return (
-    <Box
-      sx={{
-        marginTop: 8,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      {/* <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-      </Avatar> */}
-      <Typography component='h1' variant='h5'>
-        Create A task
+    <Paper elevation={0} sx={{ p: { xs: 3, md: 4 }, mb: 3, borderRadius: 3 }}>
+      <Typography component='h2' variant='h5' sx={{ mb: 0.5 }}>
+        Create a task
       </Typography>
-      <Box sx={{ m1: 3 }} component='form' noValidate onSubmit={handleSubmit}>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          id='title'
-          label={t('Title')}
-          name='title'
-          value={title}
-          autoComplete='title'
-          onChange={handleTitleChange}
-          autoFocus
-        />
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          id='description'
-          label={t('Description')}
-          name='description'
-          value={description}
-          autoComplete='description'
-          onChange={handleDescriptionChange}
-        />
-        <Button type='submit' variant='contained' sx={{ mt: 3 }}>
-          Add a task
-        </Button>
+      <Typography color='text.secondary' sx={{ mb: 3 }}>
+        Adds a new row to the board and persists through the REST API in production mode.
+      </Typography>
+      <Box component='form' noValidate onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={5}>
+            <TextField
+              required
+              fullWidth
+              id='title'
+              label={t('Title')}
+              name='title'
+              value={title}
+              autoComplete='title'
+              onChange={handleTitleChange}
+              autoFocus
+            />
+          </Grid>
+          <Grid item xs={12} md={5}>
+            <TextField
+              required
+              fullWidth
+              id='description'
+              label={t('Description')}
+              name='description'
+              value={description}
+              autoComplete='description'
+              onChange={handleDescriptionChange}
+            />
+          </Grid>
+          <Grid item xs={12} md={2} sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button type='submit' variant='contained' fullWidth sx={{ height: 56 }}>
+              Add task
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
-    </Box>
+    </Paper>
   );
 }
 
